@@ -58,20 +58,23 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Exercises.aspx" />
+    <Content Include="Global.asax" />
     <Content Include="media\cat1.jpg" />
+    <Content Include="Page_2.aspx" />
     <Content Include="Web.config" />
     <Content Include="Default.aspx" />
-    <Content Include="PageTwo.aspx" />
-    <Content Include="PageThree.aspx" />
+    <Content Include="Exercises.aspx" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Exercises.aspx.cs">
-      <DependentUpon>Exercises.aspx</DependentUpon>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Page_2.aspx.cs">
+      <DependentUpon>Page_2.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Exercises.aspx.designer.cs">
-      <DependentUpon>Exercises.aspx</DependentUpon>
+    <Compile Include="Page_2.aspx.designer.cs">
+      <DependentUpon>Page_2.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Default.aspx.cs">
@@ -81,19 +84,12 @@
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
-    <Compile Include="PageTwo.aspx.cs">
-      <DependentUpon>PageTwo.aspx</DependentUpon>
+    <Compile Include="Exercises.aspx.cs">
+      <DependentUpon>Exercises.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="PageTwo.aspx.designer.cs">
-      <DependentUpon>PageTwo.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="PageThree.aspx.cs">
-      <DependentUpon>PageThree.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="PageThree.aspx.designer.cs">
-      <DependentUpon>PageThree.aspx</DependentUpon>
+    <Compile Include="Exercises.aspx.designer.cs">
+      <DependentUpon>Exercises.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
