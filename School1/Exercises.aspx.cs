@@ -1,23 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 using System.Web.UI;
 
 namespace School1
 {
     public partial class WebForm2 : Page
     {
-        private List<string> oNames = new List<string>();
+        private readonly List<string> _oNames = new List<string>();
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            this.oNames.Add("James");
-            this.oNames.Add("MARY");
-            this.oNames.Add("Sue");
-            this.oNames.Add("Lester");
-            this.oNames.Add("JESSICA");
-            this.oNames.Add("RABBIT");
+            this._oNames.Add("James");
+            this._oNames.Add("MARY");
+            this._oNames.Add("Sue");
+            this._oNames.Add("Lester");
+            this._oNames.Add("JESSICA");
+            this._oNames.Add("RABBIT");
 
             if (!this.IsPostBack)
             {
@@ -197,7 +196,7 @@ namespace School1
             try
             {
                 for (int i = 0; i < int.Parse(this.txt4ciii.Text); i++)
-                    this.lbl4ciii_out.Text += this.oNames[i] + " ";
+                    this.lbl4ciii_out.Text += this._oNames[i] + " ";
             }
             catch (Exception)
             {
@@ -209,15 +208,15 @@ namespace School1
         {
             // i.	Write them all to a label.
 
-            foreach (string item in this.oNames)
+            foreach (string item in this._oNames)
             {
                 this.lbl4ci.Text += item;
-                if (this.oNames.IndexOf(item) != this.oNames.Count - 1)
+                if (this._oNames.IndexOf(item) != this._oNames.Count - 1)
                     this.lbl4ci.Text += ", ";
             }
 
             // ii.	Write only the ones that are in all capital letters
-            foreach (string item in this.oNames)
+            foreach (string item in this._oNames)
                 if (item == item.ToUpper())
                     this.lbl4cii.Text += item + " ";
 
