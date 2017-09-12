@@ -9,12 +9,12 @@
   <form id="form1" runat="server">
     <div>
       <asp:DataGrid ID="dgUsers" runat="server" AutoGenerateColumns="false" AllowPaging="true"
-        PageSize="2" OnPageIndexChanged="dgUsers_PageIndexChanged" PagerStyle-Mode="NumericPages"
-        AllowSorting="true" OnSortCommand="dgUser_SortCommand">
+        OnPageIndexChanged="dgUsers_PageIndexChanged" PagerStyle-Mode="NumericPages"
+        AllowSorting="true" OnSortCommand="dgUsers_SortCommand">
         <Columns>
-          <asp:BoundColumn DataField="UserID" SortExpression="UserID" />
-          <asp:BoundColumn DataField="FirstName" SortExpression="FirstName" />
-          <asp:BoundColumn DataField="LastName" SortExpression="LastName" />
+          <asp:BoundColumn DataField="UserID" SortExpression="UserID" HeaderText="UserID" />
+          <asp:BoundColumn DataField="LastName" SortExpression="LastName" HeaderText="Last Name" />
+          <asp:BoundColumn DataField="FirstName" SortExpression="FirstName" HeaderText="First Name" />
           <asp:TemplateColumn>
             <ItemTemplate>
               <asp:CheckBox ID="chkSelection" runat="server" />

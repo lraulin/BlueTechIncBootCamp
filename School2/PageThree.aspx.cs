@@ -37,9 +37,42 @@ namespace School2
             this.BindData();
         }
 
-        private void dgUsers_SortCommand(object source, DataGridCommandEventArgs e)
+        public void dgUsers_SortCommand(object source, DataGridSortCommandEventArgs e)
         {
+            try
+            {
+                string sCnxn = ConfigurationManager.AppSettings["Cnxn"];
+                string sLogPath = ConfigurationManager.AppSettings["LogPath"];
 
+                // // One way to sort:
+                //Users oUsers = new Users(sCnxn, sLogPath);
+                //List<User> oUserList = new List<User>();
+
+                //oUserList.AddRange(oUsers.Values);
+
+                //if (e.SortExpression.ToUpper() == "FIRSTNAME")
+                //    oUserList.Sort(delegate (User u1, User u2) { return u1.FirstName.CompareTo(u2.FirstName); });
+                //if (e.SortExpression.ToUpper() == "LASTNAME")
+                //    oUserList.Sort(delegate (User u1, User u2) { return u1.LastName.CompareTo(u2.LastName); });
+                //if (e.SortExpression.ToUpper() == "USERID")
+                //    oUserList.Sort(delegate (User u1, User u2) { return u1.UserID.CompareTo(u2.UserID); });
+
+
+                // // Another way to sort:
+                Users oUsers = new Users();
+                DataTable dtUsers = oUsers.UsersList(sCnxn, sLogPath);
+                DataView dvUsers = dtUsers.DefaultView;
+
+                dvUsers.Sort = e.SortExpression;
+
+                this.dgUsers.DataSource = dvUsers; //oUserList;
+                this.dgUsers.DataBind();
+            }
+            catch (Exception ex)
+            {
+
+                this.lblError.Text = ex.Message;
+            }
         }
 
         private void BindData()
