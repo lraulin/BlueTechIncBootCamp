@@ -20,15 +20,55 @@ namespace Lesson2
                 string sCnxn = ConfigurationManager.AppSettings["Cnxn"];
                 string sLogPath = ConfigurationManager.AppSettings["LogPath"];
 
-                Books oBooks = new Books(sCnxn, sLogPath, 2);
 
-                this.dgBooks.DataSource = oBooks.Values;
-                this.dgBooks.DataBind();
+
+                Book oTestBook = new BooksCompanion.Book();
+
+                oTestBook.BookTitle = "The Blank Slate";
+                oTestBook.AuthorName = "Steven Pinker";
+                oTestBook.Length = 300;
+                oTestBook.IsOnAmazon = true;
+                oTestBook.BookID = 0;
+
+                oTestBook.SaveBook(sCnxn, sLogPath);
+
+
+              
+                //
+
+
+                if (!IsPostBack)
+                {
+                    this.BindData();
+                    Book oNewTestBook = new BooksCompanion.Book(sCnxn, sLogPath, 2);
+                    lblTest.Text = "\"" + oNewTestBook.BookTitle + "\" by " + oNewTestBook.AuthorName;
+                }
+
+
+               
 
             }
             catch (Exception ex)
             {
                 this.lblError.Text = ex.Message;
+            }
+        }
+
+        private void BindData()
+        {
+            try
+            {
+                string sCnxn = ConfigurationManager.AppSettings["Cnxn"];
+                string sLogPath = ConfigurationManager.AppSettings["LogPath"];
+
+                Books oBooks = new Books(sCnxn, sLogPath);
+
+                this.dgBooks.DataSource = oBooks.Values;
+                this.dgBooks.DataBind();
+            }
+            catch (Exception ex)
+            {
+                this.lblError.Text = "BindData:" + ex.Message;
             }
         }
     }

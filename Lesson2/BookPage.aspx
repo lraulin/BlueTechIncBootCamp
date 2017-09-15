@@ -10,6 +10,8 @@
     <div>
       <asp:DataGrid ID="dgBooks" runat="server"></asp:DataGrid>
       <asp:Label ID="lblError" runat="server" />
+      <h1>Test Results:</h1>
+      <asp:Label ID="lblTest" runat="server" />
     </div>
   </form>
 </body>
