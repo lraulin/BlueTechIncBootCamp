@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 using BooksCompanion;
 
 namespace Lesson2
@@ -40,6 +35,9 @@ namespace Lesson2
 
                 this.dgBooks.DataSource = oBooks.Values;
                 this.dgBooks.DataBind();
+
+                lblTotalPrice.Text = "Total Price: $" + oBooks.TotalPrice.ToString("0.##");
+                lblAveragePrice.Text = "Average Price: $" + oBooks.AveragePrice.ToString("0.##");
             }
             catch (Exception ex)
             {
@@ -61,6 +59,9 @@ namespace Lesson2
 
                     this.dgBooks.DataSource = oBooks.Values;
                     this.dgBooks.DataBind();
+
+                    lblTotalPrice.Text = "Total Price: $" + oBooks.TotalPrice.ToString("0.##");
+                    lblAveragePrice.Text = "Average Price: $" + oBooks.AveragePrice.ToString("0.##");
                 }
                 catch (Exception ex)
                 {

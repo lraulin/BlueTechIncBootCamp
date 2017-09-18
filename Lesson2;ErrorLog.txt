@@ -42,3 +42,12 @@ ERROR IN BooksConstructor on 9/15/2017 5:43:41 PM: Invalid attempt to read when 
 ERROR IN BooksConstructor on 9/18/2017 11:30:32 AM: A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: Shared Memory Provider, error: 40 - Could not open a connection to SQL Server)
 ERROR IN BooksConstructor on 9/18/2017 11:32:46 AM: A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: Shared Memory Provider, error: 40 - Could not open a connection to SQL Server)
 ERROR IN BooksConstructor on 9/18/2017 11:57:06 AM: Failed to convert parameter value from a String to a Int32.
+ERROR IN BooksConstructor on 9/18/2017 1:19:34 PM: Price
+ERROR IN BooksConstructor on 9/18/2017 1:22:13 PM: Price
+ERROR IN BooksConstructor on 9/18/2017 2:14:40 PM: Price
+ERROR IN BooksConstructor on 9/18/2017 2:17:19 PM: Price
+ERROR IN BooksConstructor on 9/18/2017 2:17:26 PM: Price
+ERROR IN BooksConstructor on 9/18/2017 2:17:32 PM: Price
+ERROR IN BooksConstructor on 9/18/2017 2:17:34 PM: Price
+ERROR IN BooksConstructor on 9/18/2017 2:17:49 PM: Price
+ERROR IN BooksConstructor on 9/18/2017 2:17:49 PM: Price
