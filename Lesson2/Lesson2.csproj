@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="BookPage.aspx" />
+    <Content Include="BooksGrid.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -72,6 +73,13 @@
     </Compile>
     <Compile Include="BookPage.aspx.designer.cs">
       <DependentUpon>BookPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="BooksGrid.aspx.cs">
+      <DependentUpon>BooksGrid.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BooksGrid.aspx.designer.cs">
+      <DependentUpon>BooksGrid.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
