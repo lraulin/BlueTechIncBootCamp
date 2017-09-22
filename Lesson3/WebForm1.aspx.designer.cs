@@ -7,10 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Lesson2 {
+namespace Lesson3 {
     
     
-    public partial class BookPage {
+    public partial class WebForm1 {
         
         /// <summary>
         /// form1 control.
@@ -22,165 +22,165 @@ namespace Lesson2 {
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
         
         /// <summary>
-        /// txtSearchID control.
+        /// Calendar1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtSearchID;
+        protected global::System.Web.UI.WebControls.Calendar Calendar1;
         
         /// <summary>
-        /// btnSearchID control.
+        /// lbl21a control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnSearchID;
+        protected global::System.Web.UI.WebControls.Label lbl21a;
         
         /// <summary>
-        /// lblSearch control.
+        /// lbl21b control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblSearch;
+        protected global::System.Web.UI.WebControls.Label lbl21b;
         
         /// <summary>
-        /// lblBookID control.
+        /// lbl21c control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblBookID;
+        protected global::System.Web.UI.WebControls.Label lbl21c;
         
         /// <summary>
-        /// txtBookID control.
+        /// ddlBooks control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtBookID;
+        protected global::System.Web.UI.WebControls.DropDownList ddlBooks;
         
         /// <summary>
-        /// lblBookTitle control.
+        /// lblDropDown control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblBookTitle;
+        protected global::System.Web.UI.WebControls.Label lblDropDown;
         
         /// <summary>
-        /// txtBookTitle control.
+        /// lstBooks control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtBookTitle;
+        protected global::System.Web.UI.WebControls.CheckBoxList lstBooks;
         
         /// <summary>
-        /// lblAuthorName control.
+        /// lblCheckBox control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblAuthorName;
+        protected global::System.Web.UI.WebControls.Label lblCheckBox;
         
         /// <summary>
-        /// txtAuthorName control.
+        /// rdoBooks control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtAuthorName;
+        protected global::System.Web.UI.WebControls.RadioButtonList rdoBooks;
         
         /// <summary>
-        /// lblLength control.
+        /// SqlDataSource1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblLength;
+        protected global::System.Web.UI.WebControls.SqlDataSource SqlDataSource1;
         
         /// <summary>
-        /// txtLength control.
+        /// lblRadio control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtLength;
+        protected global::System.Web.UI.WebControls.Label lblRadio;
         
         /// <summary>
-        /// lblIsOnAmazon control.
+        /// ddl2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblIsOnAmazon;
+        protected global::System.Web.UI.WebControls.DropDownList ddl2;
         
         /// <summary>
-        /// drdIsOnAmazon control.
+        /// lblDropDown2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList drdIsOnAmazon;
+        protected global::System.Web.UI.WebControls.Label lblDropDown2;
         
         /// <summary>
-        /// lblDateCreated control.
+        /// ImageButton1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblDateCreated;
+        protected global::System.Web.UI.WebControls.ImageButton ImageButton1;
         
         /// <summary>
-        /// txtDateCreated control.
+        /// lblImage control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtDateCreated;
+        protected global::System.Web.UI.WebControls.Label lblImage;
         
         /// <summary>
-        /// btnSaveRecord control.
+        /// txtTest control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnSaveRecord;
+        protected global::System.Web.UI.WebControls.TextBox txtTest;
         
         /// <summary>
-        /// lblMessage control.
+        /// rfvTest control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblMessage;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvTest;
         
         /// <summary>
-        /// hypBooksGrid control.
+        /// btnGo control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink hypBooksGrid;
+        protected global::System.Web.UI.WebControls.Button btnGo;
     }
 }

@@ -1,0 +1,44 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site1.master.cs" Inherits="School2.Site1" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head runat="server">
+  <title></title>
+  <asp:ContentPlaceHolder ID="head" runat="server">
+  </asp:ContentPlaceHolder>
+  <link href="StyleSheet1.css" rel="stylesheet" />
+  <script src="js/jquery-3.2.1.min.js" type="text/javascript"></script>
+  <script src="js/jquery-ui.js" type="text/javascript"></script>
+
+  <script language="javascript" type="text/javascript">
+
+    function ShowBox(x) {
+      alert("Hello " + x);
+      if (x == 1) {
+        $('#div1').show();
+      } else {
+        $('#div1').hide();
+      }
+    }
+
+  </script>
+</head>
+<body>
+  <form id="form1" runat="server">
+    <div>
+      <table align="center">
+        <tr>
+          <td class="light">This is master content in all child pages</td>
+        </tr>
+        <tr>
+          <td>
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+            </asp:ContentPlaceHolder>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </form>
+</body>
+</html>

@@ -27,6 +27,8 @@
         <asp:Label ID="lblAveragePrice" runat="server" Text="Average Price: "></asp:Label>
       </div>
       <asp:Label ID="lblError" runat="server"></asp:Label>
+      <br />
+      <asp:HyperLink ID="hypBookPage" runat="server" Text="Search/Save Records" NavigateUrl="~/BookPage.aspx">HyperLink</asp:HyperLink>
     </div>
   </form>
 </body>

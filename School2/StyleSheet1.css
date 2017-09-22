@@ -1,0 +1,16 @@
+﻿body {
+    background-color: silver;
+}
+
+td {
+    border-color: lime;
+    border-style: dashed;
+}
+
+.light {
+    color: yellow;
+}
+
+.dark {
+    color: navy;
+}

@@ -18,35 +18,8 @@ namespace Lesson2
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            try
-            {
-                if (!IsPostBack)
-                {
-                    //this.BindData();
-                    Book oNewTestBook = new BooksCompanion.Book(sCnxn, sLogPath, 5);
-                    lblTest.Text = "\"" + oNewTestBook.BookTitle + "\" by " + oNewTestBook.AuthorName;
-                }
-            }
-            catch (Exception ex)
-            {
-                this.lblError.Text = ex.Message;
-            }
+      
         }
-
-        //private void BindData()
-        //{
-        //    try
-        //    {
-        //        Books oBooks = new Books(sCnxn, sLogPath);
-
-        //        this.dgBooks.DataSource = oBooks.Values;
-        //        this.dgBooks.DataBind();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        this.lblError.Text = "BindData:" + ex.Message;
-        //    }
-        //}
 
         protected void btnSearchID_Click(object sender, EventArgs e)
         {
@@ -63,18 +36,18 @@ namespace Lesson2
                     txtBookID.Text = oBook.BookID.ToString();
                     txtBookTitle.Text = oBook.BookTitle;
                     txtDateCreated.Text = oBook.DateCreated;
-                    txtIsOnAmazon.Text = oBook.IsOnAmazon.ToString();
+                    drdIsOnAmazon.Text = oBook.IsOnAmazon.ToString();
                     txtLength.Text = oBook.Length.ToString();
                 }
                 else
                 {
                     txtAuthorName.Text = txtBookID.Text = txtBookTitle.Text
-                        = txtDateCreated.Text = txtIsOnAmazon.Text = txtLength.Text = "No Record";
+                        = txtDateCreated.Text = drdIsOnAmazon.Text = txtLength.Text = "No Record";
                 }
             }
             catch (Exception ex)
             {
-                Response.Write(ex.Message);
+                this.lblMessage.Text = ex.Message;
             }
         }
 
@@ -94,7 +67,7 @@ namespace Lesson2
                 }
                 oBook.AuthorName = txtAuthorName.Text;
                 oBook.BookTitle = txtBookTitle.Text;
-                oBook.IsOnAmazon = Boolean.Parse(txtIsOnAmazon.Text);
+                oBook.IsOnAmazon = Boolean.Parse(drdIsOnAmazon.Text);
                 oBook.Length = Int32.Parse(txtLength.Text);
                 oBook.Save(sCnxn, sLogPath);
 
@@ -103,7 +76,7 @@ namespace Lesson2
             }
             catch (Exception ex)
             {
-                Response.Write(ex.Message);
+                this.lblMessage.Text = ex.Message;
             }
         }
     }
