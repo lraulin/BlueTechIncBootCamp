@@ -12,27 +12,31 @@ namespace Lesson3
 {
     public partial class WebForm1 : System.Web.UI.Page
     {
-        private string sCnxn = ConfigurationManager.AppSettings["Cnxn"];
-        private string sLogPath = ConfigurationManager.AppSettings["LogPath"];
-
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
                 try
                 {
+                    string sCnxn = ConfigurationManager.AppSettings["Cnxn"];
+                    string sLogPath = ConfigurationManager.AppSettings["LogPath"];
+
                     Books oBooks = new Books(sCnxn, sLogPath);
-                    List<string> sBooks = new List<string>();
-                    foreach (int key in oBooks.Keys)
-                    {
-                        sBooks.Add(oBooks[key].BookTitle);
-                    }
 
-                    ddlBooks.DataSource = sBooks;
-                    ddlBooks.DataBind();
+                    this.ddlBooks.DataSource = oBooks.Values;
+                    this.ddlBooks.DataTextField = "BookTitle";
+                    this.ddlBooks.DataValueField = "BookID";
+                    this.ddlBooks.DataBind();
 
-                    lstBooks.DataSource = sBooks;
-                    lstBooks.DataBind();
+                    this.chkBooks.DataSource = oBooks.Values;
+                    this.chkBooks.DataTextField = "BookTitle";
+                    this.chkBooks.DataValueField = "BookID";
+                    this.chkBooks.DataBind();
+
+                    this.rdoBooks.DataSource = oBooks.Values;
+                    this.rdoBooks.DataTextField = "BookTitle";
+                    this.rdoBooks.DataValueField = "BookID";
+                    this.rdoBooks.DataBind();
 
                     ddlBooks.Items.Insert(0, new ListItem("--Select--"));
 
@@ -58,44 +62,98 @@ namespace Lesson3
         }
 
 
-        protected void lstBooks_SelectedIndexChanged(object sender, EventArgs e)
+        protected void chkBooks_SelectedIndexChanged(object sender, EventArgs e)
         {
+            try
+            {
+                string sCnxn = ConfigurationManager.AppSettings["Cnxn"];
+                string sLogPath = ConfigurationManager.AppSettings["LogPath"];
 
+                Books oBooks = new Books(sCnxn, sLogPath);
+
+                this.lblSelection.Text = "You have selected:<br/>";
+
+                foreach (ListItem i in chkBooks.Items)
+                {
+                    if (i.Selected)
+                    {
+                        if (int.TryParse(i.Value, out int x))
+                        {
+                            this.lblSelection.Text += "\"" + oBooks[int.Parse(i.Value)].BookTitle + ",\" by " + oBooks[int.Parse(i.Value)].AuthorName + "<br/>";
+                        }
+                        else
+                        {
+                            this.lblSelection.Text += i.Value.ToString() + "<br/>";
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                this.lblSelection.Text = ex.Message;
+            }
         }
 
         protected void rdoBooks_SelectedIndexChanged(object sender, EventArgs e)
         {
+            try
+            {
+                string sCnxn = ConfigurationManager.AppSettings["Cnxn"];
+                string sLogPath = ConfigurationManager.AppSettings["LogPath"];
 
+                Books oBooks = new Books(sCnxn, sLogPath);
+
+                this.lblSelection.Text = "You have selected \"" + oBooks[int.Parse(rdoBooks.SelectedItem.Value)].BookTitle + ",\" by " + oBooks[int.Parse(rdoBooks.SelectedItem.Value)].AuthorName + ".";
+            }
+            catch (Exception ex)
+            {
+
+                this.lblSelection.Text = ex.Message;
+            }
         }
 
         protected void ddlBooks_SelectedIndexChanged(object sender, EventArgs e)
         {
+            try
+            {
+                string sCnxn = ConfigurationManager.AppSettings["Cnxn"];
+                string sLogPath = ConfigurationManager.AppSettings["LogPath"];
 
+                Books oBooks = new Books(sCnxn, sLogPath);
+
+                this.lblSelection.Text = "You have selected \"" + oBooks[int.Parse(ddlBooks.SelectedItem.Value)].BookTitle + ",\" by " + oBooks[int.Parse(ddlBooks.SelectedItem.Value)].AuthorName + ".";
+            }
+            catch (Exception ex)
+            {
+
+                this.lblSelection.Text = ex.Message;
+            }
         }
 
         protected void ddl2_SelectedIndexChanged(object sender, EventArgs e)
         {
-            lstBooks.Items.Remove("Stop Sign");
-            lstBooks.Items.Remove("Firetruck");
-            lstBooks.Items.Remove("Sky");
-            lstBooks.Items.Remove("Blueberry");
-            lstBooks.Items.Remove("Grass");
-            lstBooks.Items.Remove("Money");
+            chkBooks.Items.Remove("Stop Sign");
+            chkBooks.Items.Remove("Firetruck");
+            chkBooks.Items.Remove("Sky");
+            chkBooks.Items.Remove("Blueberry");
+            chkBooks.Items.Remove("Grass");
+            chkBooks.Items.Remove("Money");
 
             if (ddl2.Text == "Red")
             {
-                lstBooks.Items.Add("Stop Sign");
-                lstBooks.Items.Add("Firetruck");
+                chkBooks.Items.Add("Stop Sign");
+                chkBooks.Items.Add("Firetruck");
             }
             if (ddl2.Text == "Blue")
             {
-                lstBooks.Items.Add("Sky");
-                lstBooks.Items.Add("Blueberry");
+                chkBooks.Items.Add("Sky");
+                chkBooks.Items.Add("Blueberry");
             }
             if (ddl2.Text == "Green")
             {
-                lstBooks.Items.Add("Grass");
-                lstBooks.Items.Add("Money");
+                chkBooks.Items.Add("Grass");
+                chkBooks.Items.Add("Money");
             }
         }
 
