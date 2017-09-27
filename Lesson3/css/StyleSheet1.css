@@ -1,8 +1,17 @@
 ﻿body {
+    background-image: url('../media/cork-wallet.png');
+    background-repeat: repeat;
+    background-color: black;
+}
+
+.grid {
+    background-color: white;
 }
 
 .calendar {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+    background-color: white;
+}
+
+.calendar-box {
+    margin-left: 64px;
 }

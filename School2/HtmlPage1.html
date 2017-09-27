@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title></title>
+  <meta charset="utf-8" />
+  <script src="Scripts/jquery-3.2.1.min.js"></script>
+  <script>
+    $(function () {
+      $("#btnAjax").click(DoAjaxGet);
+    });
+
+    function AddMe(x, y) {
+      alert(x + y);
+      var z = x + y;
+      z = Math.round(z);
+      //alert(z);
+
+      //var arr = [1, 2, 3];
+      //var total = 0;
+      //for (var i = 0; i < arr.length; i++) {
+      //  total += arr[i];
+      //}
+      //alert(total);
+
+      //$('#divDisplay').html(z);
+      alert($('#divDisplay').html());
+    }
+
+    function DoAjaxGet() {
+      try {
+        $.ajax(
+          {
+            type: "GET",
+            url: "DataGet.aspx",
+            success: function (msg) {
+              alert("running ok");
+              $("#divDisplay").html(msg);
+            },
+            error: function (msg, status, error) {
+              alert("running err");
+              $("#divDisplay").html(error);
+            }
+          }
+        );
+      } catch (Error) {
+        alet(Error);
+      }
+    }
+
+    function DoAjaxPost() {
+      try {
+        $.ajax(
+          {
+            type: "GET",
+            url: "DataGet.aspx",
+            success: function (msg) {
+              alert("running ok");
+              $("#divDisplay").html(msg);
+            },
+            error: function (msg, status, error) {
+              alert("running err");
+              $("#divDisplay").html(error);
+            }
+          }
+        );
+      } catch (Error) {
+        alet(Error);
+      }
+    }
+
+
+  </script>
+</head>
+<body>
+  <input id="Button1" type="button" value="Add" onclick="AddMe(1, 2.3)" />
+  <div id="divDisplay">Hello</div>
+  <input type="button" id="btnAjax" value="Ajax" />
+</body>
+</html>

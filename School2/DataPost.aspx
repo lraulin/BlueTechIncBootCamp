@@ -1,0 +1,1 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="DataPost.aspx.cs" Inherits="School2.DataPost" %>

@@ -5,11 +5,11 @@
 <html>
 <head runat="server">
   <title></title>
-  <!-- Latest compiled and minified CSS -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-  <!-- Required meta tags -->
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <link href="css/StyleSheet1.css" rel="stylesheet" />
 </head>
 <body>
@@ -19,11 +19,13 @@
         <h1>Lesson 3</h1>
       </div>
     </div>
-    <div class="container">
+    <div class="container-fluid">
       <div class="row">
-        <div class="col-md-12 calendar">
-          <asp:Calendar ID="Calendar1" runat="server" OnSelectionChanged="Calendar1_SelectionChanged" OnDayRender="Calendar1_DayRender"></asp:Calendar>
-          <div class="well text-center">
+        <div class="col-xs-3">
+          <div class="calendar-box">
+            <asp:Calendar ID="Calendar1" runat="server" OnSelectionChanged="Calendar1_SelectionChanged" OnDayRender="Calendar1_DayRender" CssClass="calendar"></asp:Calendar>
+          </div>
+          <div class="well well-sm text-center">
             <asp:Label ID="lbl21a" runat="server"></asp:Label>
             <br />
             <asp:Label ID="lbl21b" runat="server"></asp:Label>
@@ -31,25 +33,48 @@
             <asp:Label ID="lbl21c" runat="server"></asp:Label>
           </div>
         </div>
-      </div>
-
-      <div class="row">
-
-        <div class="col-md-4">
-          <asp:DropDownList ID="ddlBooks" runat="server" OnSelectedIndexChanged="ddlBooks_SelectedIndexChanged" AutoPostBack="true" Style="height: 27px"></asp:DropDownList>
-          <div class="card">
-            <asp:Label ID="lblDropDown" runat="server" Text="Label"></asp:Label>
+        <div class="col-xs-9">
+          <asp:DataGrid ID="dgBooks" runat="server" AllowSorting="true" AutoGenerateColumns="false" CssClass="grid">
+            <Columns>
+              <asp:BoundColumn DataField="BookID" SortExpression="BookID" HeaderText="Book ID" ItemStyle-HorizontalAlign="Center" />
+              <asp:BoundColumn DataField="BookTitle" SortExpression="BookTitle" HeaderText="Book Title" />
+              <asp:BoundColumn DataField="AuthorName" SortExpression="AuthorName" HeaderText="Author Name" />
+              <asp:BoundColumn DataField="Length" SortExpression="Length" HeaderText="Length" ItemStyle-HorizontalAlign="Center" />
+              <asp:BoundColumn DataField="IsOnAmazon" SortExpression="IsOnAmazon" HeaderText="On Amazon?" ItemStyle-HorizontalAlign="Center" />
+              <asp:BoundColumn DataField="DateCreated" SortExpression="DateCreated" HeaderText="Date Created" />
+              <asp:BoundColumn DataField="Price" SortExpression="Price" HeaderText="Price" DataFormatString="{0:c}" ItemStyle-HorizontalAlign="Right" />
+              <asp:TemplateColumn>
+                <ItemTemplate>
+                  <asp:CheckBox ID="chkSelection" runat="server" />
+                </ItemTemplate>
+              </asp:TemplateColumn>
+            </Columns>
+          </asp:DataGrid>
+          <div id="SearchBox">
+            <%--            <asp:TextBox ID="txtTitleSearch" runat="server" placeholder="Search by Title" />
+            <asp:Button ID="btnTitleSearch" runat="server" Text="Go" />--%>
+            <asp:Button ID="btnRemoveSelected" runat="server" Text="Remove" OnClick="btnRemoveSelected_Click" />
+            <asp:Label ID="lblTotalPrice" runat="server" Text="Total Price: "></asp:Label>
+            <asp:Label ID="lblAveragePrice" runat="server" Text="Average Price: "></asp:Label>
           </div>
         </div>
+      </div>
+      <br />
+      <br />
+      <div class="row">
 
-        <div class="col-md-4 border">
+        <div class="col-xs-2">
+          <asp:DropDownList ID="ddlBooks" runat="server" OnSelectedIndexChanged="ddlBooks_SelectedIndexChanged" AutoPostBack="true" Style="height: 27px"></asp:DropDownList>
+        </div>
+
+        <div class="col-xs-2 border">
           <asp:CheckBoxList ID="chkBooks" runat="server" OnSelectedIndexChanged="chkBooks_SelectedIndexChanged" AutoPostBack="true">
           </asp:CheckBoxList>
-          <asp:Label ID="lblCheckBox" runat="server" Text="Label"></asp:Label>
+          <asp:Label ID="lblCheckBox" runat="server"></asp:Label>
           <br />
         </div>
 
-        <div class="col-md-4">
+        <div class="col-xs-2">
           <asp:RadioButtonList ID="rdoBooks" runat="server" OnSelectedIndexChanged="rdoBooks_SelectedIndexChanged" AutoPostBack="True">
           </asp:RadioButtonList>
           <asp:Label ID="lblRadio" runat="server"></asp:Label>
@@ -57,29 +82,93 @@
 
       </div>
 
-      <div class="row">
 
-        <div class="col-md-4">
-          <asp:DropDownList ID="ddl2" runat="server" OnSelectedIndexChanged="ddl2_SelectedIndexChanged" AutoPostBack="true" Style="height: 27px"></asp:DropDownList>
-          <div class="card">
-            <asp:Label ID="lblDropDown2" runat="server"></asp:Label>
+      <div class="col-xs-2">
+        <asp:DropDownList ID="ddl2" runat="server" OnSelectedIndexChanged="ddl2_SelectedIndexChanged" AutoPostBack="true" Style="height: 27px"></asp:DropDownList>
+        <div class="card">
+          <asp:Label ID="lblDropDown2" runat="server"></asp:Label>
+        </div>
+      </div>
+
+      <div class="col-xs-2">
+        <asp:ImageButton ID="ImageButton1" ImageUrl="~/media/tabletinykitten.jpg" runat="server" OnClick="ImageButton1_Click" />
+        <asp:Label ID="lblImage" runat="server"></asp:Label>
+      </div>
+      <div class="col-xs-4">
+        <asp:Label ID="lblSelection" runat="server"></asp:Label>
+      </div>
+      <div class="row">
+        <div class="col-xs-4">
+          <div id="divData">
+            <table>
+              <tr>
+                <td>
+                  <asp:Label ID="lblBookID" runat="server" Text="Book ID"></asp:Label>
+                </td>
+                <td>
+                  <asp:TextBox ID="txtBookID" runat="server" ToolTip="Enter 0 to insert new record" ReadOnly="True"></asp:TextBox>
+                </td>
+                <td>
+                  <asp:Button ID="btnNewRecord" runat="server" ToolTip="Click to enter a new record" OnClick="btnNewRecord_Click" />
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <asp:Label ID="lblBookTitle" runat="server" Text="Book Title"></asp:Label>
+                </td>
+                <td>
+                  <asp:TextBox ID="txtBookTitle" runat="server" ToolTip="Enter Book Title"></asp:TextBox>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <asp:Label ID="lblAuthorName" runat="server" Text="Author Name"></asp:Label>
+                </td>
+                <td>
+                  <asp:TextBox ID="txtAuthorName" runat="server" ToolTip="Enter Author Name"></asp:TextBox>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <asp:Label ID="lblLength" runat="server" Text="Length"></asp:Label>
+                </td>
+                <td>
+                  <asp:TextBox ID="txtLength" runat="server" ToolTip="Enter Number of Pages"></asp:TextBox>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <asp:Label ID="lblIsOnAmazon" runat="server" Text="On Amazon?"></asp:Label>
+                </td>
+                <td>
+                  <%--              <asp:TextBox ID="txtIsOnAmazon" runat="server"></asp:TextBox>--%>
+                  <asp:DropDownList ID="drdIsOnAmazon" runat="server" Width="152px">
+                    <asp:ListItem Text="" />
+                    <asp:ListItem Text="True" />
+                    <asp:ListItem Text="False" />
+                  </asp:DropDownList>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <asp:Label ID="lblDateCreated" runat="server" Text="Date Created"></asp:Label>
+                </td>
+                <td>
+                  <asp:TextBox ID="txtDateCreated" ReadOnly="true" runat="server"></asp:TextBox>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <asp:DropDownList ID="ddlBookEditor" runat="server" OnSelectedIndexChanged="ddlBookEditor_SelectedIndexChanged" AutoPostBack="true" Style="height: 27px"></asp:DropDownList>
+                </td>
+                <td>
+                  <asp:Button ID="btnSaveRecord" runat="server" Text="Save Record" OnClick="btnSaveRecord_Click" />
+                </td>
+              </tr>
+            </table>
           </div>
         </div>
-
-        <div class="col-md-4">
-          <asp:ImageButton ID="ImageButton1" ImageUrl="~/media/tabletinykitten.jpg" runat="server" />
-          <asp:Label ID="lblImage" runat="server" Text="Label"></asp:Label>
-        </div>
-
-      </div>
-      <div id="container">
-            <asp:Label ID="lblSelection" runat="server"></asp:Label>
-      </div>
+    </div>
   </form>
-  <!-- Optional JavaScript -->
-  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
 </body>
 </html>

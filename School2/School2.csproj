@@ -65,18 +65,41 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="DataGet.aspx" />
+    <Content Include="DataPost.aspx" />
     <Content Include="Defaultaspx.aspx" />
     <Content Include="Global.asax" />
+    <Content Include="HtmlPage1.html" />
     <Content Include="js\jquery-3.2.1.min.js" />
     <Content Include="js\jquery-ui.js" />
     <Content Include="Page1WithMaster.aspx" />
     <Content Include="Page2WithMaster.aspx" />
     <Content Include="PageThree.aspx" />
     <Content Include="PageTwo.aspx" />
+    <None Include="packages.config" />
+    <None Include="Scripts\jquery-3.2.1.intellisense.js" />
+    <Content Include="Scripts\jquery-3.2.1.js" />
+    <Content Include="Scripts\jquery-3.2.1.min.js" />
+    <Content Include="Scripts\jquery-3.2.1.slim.js" />
+    <Content Include="Scripts\jquery-3.2.1.slim.min.js" />
     <Content Include="StyleSheet1.css" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataGet.aspx.cs">
+      <DependentUpon>DataGet.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DataGet.aspx.designer.cs">
+      <DependentUpon>DataGet.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DataPost.aspx.cs">
+      <DependentUpon>DataPost.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DataPost.aspx.designer.cs">
+      <DependentUpon>DataPost.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Defaultaspx.aspx.cs">
       <DependentUpon>Defaultaspx.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -126,6 +149,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Site1.Master" />
+    <Content Include="Scripts\jquery-3.2.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.2.1.min.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
