@@ -609,3 +609,128 @@ ERROR IN BooksConstructor on 9/26/2017 7:54:46 PM: Price
 ERROR IN BooksConstructor on 9/26/2017 7:54:48 PM: Price
 ERROR IN BooksConstructor on 9/26/2017 7:54:51 PM: Price
 ERROR IN BooksConstructor on 9/26/2017 7:54:54 PM: Price
+ERROR IN BooksConstructor on 9/27/2017 6:12:47 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 6:12:50 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 6:12:53 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 6:12:54 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 6:12:54 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 6:12:56 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 6:22:41 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 6:22:51 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 6:22:52 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 6:22:54 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 6:22:54 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 6:22:55 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 6:22:56 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 6:28:02 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 6:28:06 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 6:28:07 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 6:28:08 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 6:28:09 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 6:31:41 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 6:31:46 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 6:31:47 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 6:31:49 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 6:31:50 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 6:31:52 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 6:31:53 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 6:37:28 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 6:37:30 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 6:37:32 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 6:37:33 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 6:37:35 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 6:37:36 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 6:37:37 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 6:37:38 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 6:37:39 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:00:31 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:00:32 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:00:34 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:00:34 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:00:36 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:01:30 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:01:32 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:01:33 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:01:34 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:01:35 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:08:18 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:08:21 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:08:22 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:08:23 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:08:24 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:10:04 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:10:05 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:10:07 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:10:08 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:10:09 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:10:11 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:10:13 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:10:14 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:10:16 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:13:44 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:13:46 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:13:49 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:13:50 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:13:51 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:14:15 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:14:17 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:14:19 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:14:24 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:14:25 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:14:31 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:14:34 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:14:42 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:14:44 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:19:14 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:19:17 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:19:17 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:19:19 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:19:20 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:20:50 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:20:58 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:21:07 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:21:19 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:21:34 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:21:38 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:24:32 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:26:42 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:27:02 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:27:38 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:27:43 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:27:44 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:27:47 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:32:45 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:33:07 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:33:11 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:33:12 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:34:43 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:42:38 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:42:46 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:42:47 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:42:49 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:42:50 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:42:51 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:43:43 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:43:45 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:43:46 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:43:47 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:43:50 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:44:09 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:45:04 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:45:05 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:45:07 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:45:08 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:46:54 PM: Object cannot be cast from DBNull to other types.
+ERROR IN BooksConstructor on 9/27/2017 7:58:46 PM: Price
+ERROR IN BooksConstructor on 9/27/2017 7:58:53 PM: Price
+ERROR IN BooksConstructor on 9/27/2017 7:58:55 PM: Price
+ERROR IN BooksConstructor on 9/27/2017 8:10:37 PM: Price
+ERROR IN BooksConstructor on 9/27/2017 8:10:40 PM: Price
+ERROR IN BooksConstructor on 9/27/2017 8:10:43 PM: Price
+ERROR IN BooksConstructor on 9/27/2017 8:13:59 PM: Price
+ERROR IN BookList on 9/27/2017 8:50:34 PM: Cannot insert the value NULL into column 'Price', table 'Lesson2.dbo.tblBooks'; column does not allow nulls. INSERT fails.
+The statement has been terminated.
+ERROR IN BookList on 9/27/2017 8:51:36 PM: Cannot insert the value NULL into column 'Price', table 'Lesson2.dbo.tblBooks'; column does not allow nulls. INSERT fails.
+The statement has been terminated.
+ERROR IN BookList on 9/27/2017 8:56:46 PM: Procedure or function 'spBookSave' expects parameter '@Price', which was not supplied.
+ERROR IN BookList on 9/27/2017 8:59:39 PM: Procedure or function 'spBookSave' expects parameter '@Price', which was not supplied.

@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Configuration;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Globalization;
 using BooksCompanion;
-using System.Configuration;
-using System.ComponentModel;
+using System.Data;
 
 namespace Lesson3
 {
@@ -15,7 +16,7 @@ namespace Lesson3
     {
         private string sCnxn = ConfigurationManager.AppSettings["Cnxn"];
         private string sLogPath = ConfigurationManager.AppSettings["LogPath"];
-        private List<int> iSelections = new List<int>();
+        private static List<int> iSelections = new List<int>();
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -95,6 +96,24 @@ namespace Lesson3
                     }
                 }
 
+                Books oBooks = new Books(sCnxn, sLogPath, iSelections);
+
+                this.dgBooks.DataSource = oBooks.Values;
+                this.dgBooks.DataBind();
+
+                lblTotalPrice.Text = "Total Price: $" + oBooks.TotalPrice.ToString("0.##");
+                lblAveragePrice.Text = "Average Price: $" + oBooks.AveragePrice.ToString("0.##");
+            }
+            catch (Exception ex)
+            {
+                Response.Write("BindData:" + ex.Message);
+            }
+        }
+
+        private void UpdateSelection()
+        {
+            try
+            {
                 Books oBooks = new Books(sCnxn, sLogPath, iSelections);
 
                 this.dgBooks.DataSource = oBooks.Values;
@@ -226,6 +245,7 @@ namespace Lesson3
         protected void ImageButton1_Click(object sender, ImageClickEventArgs e)
         {
             lblSelection.Text = "RESET!";
+            lblRecordEditor.Text = "";
             rdoBooks.ClearSelection();
             chkBooks.ClearSelection();
             ddlBooks.ClearSelection();
@@ -234,7 +254,24 @@ namespace Lesson3
 
         protected void btnRemoveSelected_Click(object sender, EventArgs e)
         {
+            try
+            {
+                iSelections = iSelections.Distinct<int>().ToList<int>();
+                for (int i = dgBooks.Items.Count - 1; i >= 0; i--)
+                {
+                    CheckBox chkS = (CheckBox)dgBooks.Items[i].FindControl("chkSelection");
+                    if (chkS.Checked)
+                    {
+                        iSelections.Remove(int.Parse(dgBooks.Items[i].Cells[0].Text));
+                    }
+                }
+                UpdateSelection();
+            }
+            catch (Exception ex)
+            {
 
+                Response.Write("btnRemoveSelected: " + ex.Message);
+            }
         }
 
         protected void btnSaveRecord_Click(object sender, EventArgs e)
@@ -242,20 +279,17 @@ namespace Lesson3
             Book oBook = new BooksCompanion.Book();
             try
             {
-                if (txtBookID.Text == "")
-                {
-                    oBook.BookID = 0;
-                }
-                else
-                {
-                    oBook.BookID = Int32.Parse(txtBookID.Text);
-                }
+                oBook.BookID = Int32.Parse(txtBookID.Text);
                 oBook.AuthorName = txtAuthorName.Text;
                 oBook.BookTitle = txtBookTitle.Text;
                 oBook.IsOnAmazon = Boolean.Parse(drdIsOnAmazon.Text);
                 oBook.Length = Int32.Parse(txtLength.Text);
+                txtPrice.Text = txtPrice.Text.Replace("$", string.Empty);
+                oBook.Price = decimal.Parse(txtPrice.Text);
                 oBook.Save(sCnxn, sLogPath);
                 PopulateWebControls();
+                BindSelections();
+                lblRecordEditor.Text = "Save Successful!";
             }
             catch (Exception ex)
             {
@@ -265,11 +299,11 @@ namespace Lesson3
 
         protected void ddlBookEditor_SelectedIndexChanged(object sender, EventArgs e)
         {
+            lblRecordEditor.Text = "";
             if (CanCovert(this.ddlBookEditor.SelectedItem.Value, typeof(int)))
             {
                 int iSearchID = Convert.ToInt32(this.ddlBookEditor.SelectedItem.Value);
                 Book oBook = new Book(sCnxn, sLogPath, iSearchID);
-                Response.Write(oBook.BookID);
                 if (Convert.ToBoolean(oBook.BookID))
                 {
                     txtAuthorName.Text = oBook.AuthorName;
@@ -278,6 +312,7 @@ namespace Lesson3
                     txtDateCreated.Text = oBook.DateCreated;
                     drdIsOnAmazon.Text = oBook.IsOnAmazon.ToString();
                     txtLength.Text = oBook.Length.ToString();
+                    txtPrice.Text = String.Format("{0:C}", oBook.Price);
                 }
             }
             else
@@ -297,5 +332,6 @@ namespace Lesson3
             drdIsOnAmazon.SelectedValue = "";
             txtLength.Text = "";
         }
+
     }
 }
