@@ -1,7 +1,6 @@
 ﻿body {
     background-image: url('../media/cork-wallet.png');
     background-repeat: repeat;
-    background-color: black;
 }
 
 .grid {
@@ -12,6 +11,55 @@
     background-color: white;
 }
 
-.calendar-box {
-    margin-left: 64px;
+.my-jumbotron {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    margin-bottom: 30px;
+    color: inherit;
+    background-image: url('../media/pink dust.png') !important;
+    background-repeat: repeat !important;
+}
+
+.my-jumbotron h1,
+.my-jumbotron .h1 {
+    color: white;
+}
+
+.my-jumbotron p {
+    margin-bottom: 15px;
+    font-size: 21px;
+    font-weight: 200;
+}
+
+.my-jumbotron > hr {
+    border-top-color: #d5d5d5;
+}
+
+.container .my-jumbotron,
+.container-fluid .my-jumbotron {
+    padding-right: 15px;
+    padding-left: 15px;
+    border-radius: 6px;
+}
+
+.my-jumbotron .container {
+    max-width: 100%;
+}
+
+@media screen and (min-width: 768px) {
+    .my-jumbotron {
+        padding-top: 48px;
+        padding-bottom: 48px;
+    }
+
+    .container .my-jumbotron,
+    .container-fluid .my-jumbotron {
+        padding-right: 60px;
+        padding-left: 60px;
+    }
+
+    .my-jumbotron h1,
+    .my-jumbotron .h1 {
+        font-size: 63px;
+    }
 }

@@ -66,8 +66,6 @@
             <SelectedItemStyle BackColor="#E2DED6" Font-Bold="True" ForeColor="#333333" />
           </asp:DataGrid>
           <div id="SearchBox">
-            <%--            <asp:TextBox ID="txtTitleSearch" runat="server" placeholder="Search by Title" />
-            <asp:Button ID="btnTitleSearch" runat="server" Text="Go" />--%>
             <asp:Button ID="btnRemoveSelected" runat="server" Text="Remove" OnClick="btnRemoveSelected_Click" />
             <asp:Label ID="lblTotalPrice" runat="server" Text="Total Price: "></asp:Label>
             <asp:Label ID="lblAveragePrice" runat="server" Text="Average Price: "></asp:Label>

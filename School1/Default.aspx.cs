@@ -20,7 +20,7 @@ namespace School1
             catch (Exception ex)
             {
 
-                throw;
+                Response.Write("PageLoad: " + ex.Message);
             }
         }
 

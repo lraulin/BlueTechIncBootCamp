@@ -58,10 +58,12 @@ namespace Lesson3
                 ddl2.Items.Add("Red");
                 ddl2.Items.Add("Blue");
                 ddl2.Items.Add("Green");
+
+                Response.Write(rdoBooks.SelectedValue.ToString());
             }
             catch (Exception ex)
             {
-                Response.Write("BindData: " + ex.Message);
+                Response.Write("PopulateWebControls: " + ex.Message);
             }
         }
 
@@ -76,29 +78,27 @@ namespace Lesson3
             try
             {
                 iSelections.Clear();
+                // Add dropdown list selection
                 if (CanCovert(ddlBooks.SelectedValue, typeof(int)))
-                {
                     iSelections.Add(int.Parse(ddlBooks.SelectedValue));
-                }
-                if (CanCovert(rdoBooks.SelectedValue, typeof(int)))
-                {
-                    iSelections.Add(int.Parse(rdoBooks.SelectedValue));
-                }
 
+                // Add radio list selection
+                if (CanCovert(rdoBooks.SelectedValue, typeof(int)))
+                    iSelections.Add(int.Parse(rdoBooks.SelectedValue));
+
+                // Add checkbox list selection(s)
                 foreach (ListItem item in chkBooks.Items)
                 {
-                    if (item.Selected)
-                    {
-                        if (CanCovert(item.Value, typeof(int)))
-                        {
-                            iSelections.Add(int.Parse(item.Value));
-                        }
-                    }
+                    if (item.Selected && CanCovert(item.Value, typeof(int)))
+                        iSelections.Add(int.Parse(item.Value));
                 }
 
-                Books oBooks = new Books(sCnxn, sLogPath, iSelections);
-
-                this.dgBooks.DataSource = oBooks.Values;
+                Books oBooks = new Books(sCnxn, sLogPath);
+                List<Book> oList = new List<Book>();
+                List<Book> oListFiltered = new List<Book>();
+                oList.AddRange(oBooks.Values);
+                oListFiltered = oList.FindAll(delegate (Book b1) { return iSelections.Contains(b1.BookID); });
+                this.dgBooks.DataSource = oListFiltered;
                 this.dgBooks.DataBind();
 
                 lblTotalPrice.Text = "Total Price: $" + oBooks.TotalPrice.ToString("0.##");
@@ -106,7 +106,7 @@ namespace Lesson3
             }
             catch (Exception ex)
             {
-                Response.Write("BindData:" + ex.Message);
+                Response.Write("BindSelections:" + ex.Message);
             }
         }
 
@@ -114,9 +114,14 @@ namespace Lesson3
         {
             try
             {
-                Books oBooks = new Books(sCnxn, sLogPath, iSelections);
-
-                this.dgBooks.DataSource = oBooks.Values;
+                Books oBooks = new Books(sCnxn, sLogPath);
+                List<Book> oList = new List<Book>();
+                oList.AddRange(oBooks.Values);
+                IEnumerable<object> oSelectedBooks =
+                    from book in oList
+                    where iSelections.Contains(book.BookID)
+                    select book;
+                this.dgBooks.DataSource = oSelectedBooks;
                 this.dgBooks.DataBind();
 
                 lblTotalPrice.Text = "Total Price: $" + oBooks.TotalPrice.ToString("0.##");
@@ -124,7 +129,7 @@ namespace Lesson3
             }
             catch (Exception ex)
             {
-                Response.Write("BindData:" + ex.Message);
+                Response.Write("UpdateSelection:" + ex.Message);
             }
         }
 
@@ -167,7 +172,7 @@ namespace Lesson3
             catch (Exception ex)
             {
 
-                this.lblSelection.Text = ex.Message;
+                this.lblSelection.Text = "chkBooks_SelectedIndexChanged: " + ex.Message;
             }
         }
 
@@ -175,16 +180,18 @@ namespace Lesson3
         {
             try
             {
-
-                Books oBooks = new Books(sCnxn, sLogPath);
-
-                this.lblSelection.Text = "You have selected \"" + oBooks[int.Parse(rdoBooks.SelectedItem.Value)].BookTitle + ",\" by " + oBooks[int.Parse(rdoBooks.SelectedItem.Value)].AuthorName + ".";
-                BindSelections();
+                if (rdoBooks.SelectedValue != "")
+                {
+                    int iSelectedID = int.Parse(rdoBooks.SelectedItem.Value);
+                    Books oBooks = new Books(sCnxn, sLogPath);
+                    this.lblSelection.Text = "You have selected \"" + oBooks[iSelectedID].BookTitle + ",\" by " + oBooks[iSelectedID].AuthorName + ".";
+                    BindSelections();
+                }
             }
             catch (Exception ex)
             {
 
-                this.lblSelection.Text = ex.Message;
+                this.lblSelection.Text = "rdoBooks_SelectedIndexChanged: " + ex.Message;
             }
         }
 
@@ -192,64 +199,91 @@ namespace Lesson3
         {
             try
             {
-                Books oBooks = new Books(sCnxn, sLogPath);
-
-                this.lblSelection.Text = "You have selected \"" + oBooks[int.Parse(ddlBooks.SelectedItem.Value)].BookTitle + ",\" by " + oBooks[int.Parse(ddlBooks.SelectedItem.Value)].AuthorName + ".";
+                if (CanCovert(ddlBooks.SelectedValue, typeof(int)))
+                {
+                    int iSelectedID = int.Parse(ddlBooks.SelectedItem.Value);
+                    Books oBooks = new Books(sCnxn, sLogPath);
+                    this.lblSelection.Text = "You have selected \"" + oBooks[iSelectedID].BookTitle + ",\" by " + oBooks[iSelectedID].AuthorName + ".";
+                } else
+                {
+                    this.lblSelection.Text = "You have reset the drop-down list.";
+                }
                 BindSelections();
             }
             catch (Exception ex)
             {
 
-                this.lblSelection.Text = ex.Message;
+                this.lblSelection.Text = "ddlBooks_SelectedIndexChanged: " + ex.Message;
             }
         }
 
         protected void ddl2_SelectedIndexChanged(object sender, EventArgs e)
         {
-            chkBooks.Items.Remove("Stop Sign");
-            chkBooks.Items.Remove("Firetruck");
-            chkBooks.Items.Remove("Sky");
-            chkBooks.Items.Remove("Blueberry");
-            chkBooks.Items.Remove("Grass");
-            chkBooks.Items.Remove("Money");
+            try
+            {
+                chkBooks.Items.Remove("Stop Sign");
+                chkBooks.Items.Remove("Firetruck");
+                chkBooks.Items.Remove("Sky");
+                chkBooks.Items.Remove("Blueberry");
+                chkBooks.Items.Remove("Grass");
+                chkBooks.Items.Remove("Money");
 
-            if (ddl2.Text == "Red")
-            {
-                chkBooks.Items.Add("Stop Sign");
-                chkBooks.Items.Add("Firetruck");
+                if (ddl2.Text == "Red")
+                {
+                    chkBooks.Items.Add("Stop Sign");
+                    chkBooks.Items.Add("Firetruck");
+                }
+                if (ddl2.Text == "Blue")
+                {
+                    chkBooks.Items.Add("Sky");
+                    chkBooks.Items.Add("Blueberry");
+                }
+                if (ddl2.Text == "Green")
+                {
+                    chkBooks.Items.Add("Grass");
+                    chkBooks.Items.Add("Money");
+                }
+                DataBind();
             }
-            if (ddl2.Text == "Blue")
+            catch (Exception ex)
             {
-                chkBooks.Items.Add("Sky");
-                chkBooks.Items.Add("Blueberry");
+                this.lblSelection.Text = "ddl2_SelectedIndexChanged: " + ex.Message;
             }
-            if (ddl2.Text == "Green")
-            {
-                chkBooks.Items.Add("Grass");
-                chkBooks.Items.Add("Money");
-            }
-            DataBind();
         }
 
         protected void Calendar1_DayRender(object sender, DayRenderEventArgs e)
         {
-            if (e.Day.Date > DateTime.Today ||
-                e.Day.Date < DateTime.Today ||
-                e.Day.Date.DayOfWeek.ToString() == "Saturday" ||
-                e.Day.Date.DayOfWeek.ToString() == "Sunday")
+            try
             {
-                e.Day.IsSelectable = false;
+                if (e.Day.Date > DateTime.Today ||
+                    e.Day.Date < DateTime.Today ||
+                    e.Day.Date.DayOfWeek.ToString() == "Saturday" ||
+                    e.Day.Date.DayOfWeek.ToString() == "Sunday")
+                {
+                    e.Day.IsSelectable = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                this.lblSelection.Text = "Calendar1_DayRender: " + ex.Message;
             }
         }
 
         protected void ImageButton1_Click(object sender, ImageClickEventArgs e)
         {
-            lblSelection.Text = "RESET!";
-            lblRecordEditor.Text = "";
-            rdoBooks.ClearSelection();
-            chkBooks.ClearSelection();
-            ddlBooks.ClearSelection();
-            BindSelections();
+            try
+            {
+                lblSelection.Text = "RESET!";
+                lblRecordEditor.Text = "";
+                rdoBooks.ClearSelection();
+                chkBooks.ClearSelection();
+                ddlBooks.ClearSelection();
+                BindSelections();
+            }
+            catch (Exception ex)
+            {
+                this.lblSelection.Text = "ImageButton1_Click: " + ex.Message;
+            }
         }
 
         protected void btnRemoveSelected_Click(object sender, EventArgs e)
@@ -262,7 +296,19 @@ namespace Lesson3
                     CheckBox chkS = (CheckBox)dgBooks.Items[i].FindControl("chkSelection");
                     if (chkS.Checked)
                     {
-                        iSelections.Remove(int.Parse(dgBooks.Items[i].Cells[0].Text));
+                        string sSelectedID = dgBooks.Items[i].Cells[0].Text;
+                        int iSelectedID = int.Parse(sSelectedID);
+                        iSelections.Remove(int.Parse(sSelectedID));
+                        Response.Write("ID: " + i);
+                        if (ddlBooks.SelectedValue == sSelectedID)
+                            ddlBooks.SelectedIndex = 0;
+                        if (rdoBooks.SelectedValue == sSelectedID)
+                            rdoBooks.SelectedIndex = 0;
+                        foreach (ListItem item in chkBooks.Items)
+                        {
+                            if (item.Value == sSelectedID)
+                                item.Selected = false;
+                        }
                     }
                 }
                 UpdateSelection();
@@ -293,44 +339,58 @@ namespace Lesson3
             }
             catch (Exception ex)
             {
-                Response.Write(ex.Message);
+                Response.Write("btnSaveRecord_Click: " + ex.Message);
             }
         }
 
         protected void ddlBookEditor_SelectedIndexChanged(object sender, EventArgs e)
         {
-            lblRecordEditor.Text = "";
-            if (CanCovert(this.ddlBookEditor.SelectedItem.Value, typeof(int)))
+            try
             {
-                int iSearchID = Convert.ToInt32(this.ddlBookEditor.SelectedItem.Value);
-                Book oBook = new Book(sCnxn, sLogPath, iSearchID);
-                if (Convert.ToBoolean(oBook.BookID))
+                lblRecordEditor.Text = "";
+                if (CanCovert(this.ddlBookEditor.SelectedItem.Value, typeof(int)))
                 {
-                    txtAuthorName.Text = oBook.AuthorName;
-                    txtBookID.Text = oBook.BookID.ToString();
-                    txtBookTitle.Text = oBook.BookTitle;
-                    txtDateCreated.Text = oBook.DateCreated;
-                    drdIsOnAmazon.Text = oBook.IsOnAmazon.ToString();
-                    txtLength.Text = oBook.Length.ToString();
-                    txtPrice.Text = String.Format("{0:C}", oBook.Price);
+                    int iSearchID = Convert.ToInt32(this.ddlBookEditor.SelectedItem.Value);
+                    Book oBook = new Book(sCnxn, sLogPath, iSearchID);
+                    if (Convert.ToBoolean(oBook.BookID))
+                    {
+                        txtAuthorName.Text = oBook.AuthorName;
+                        txtBookID.Text = oBook.BookID.ToString();
+                        txtBookTitle.Text = oBook.BookTitle;
+                        txtDateCreated.Text = oBook.DateCreated;
+                        drdIsOnAmazon.Text = oBook.IsOnAmazon.ToString();
+                        txtLength.Text = oBook.Length.ToString();
+                        txtPrice.Text = String.Format("{0:C}", oBook.Price);
+                    }
+                }
+                else
+                {
+                    txtAuthorName.Text = txtBookID.Text = txtBookTitle.Text
+                        = txtDateCreated.Text = txtLength.Text = "No Record";
+                    this.drdIsOnAmazon.SelectedValue = "";
                 }
             }
-            else
+            catch (Exception ex)
             {
-                txtAuthorName.Text = txtBookID.Text = txtBookTitle.Text
-                    = txtDateCreated.Text = txtLength.Text = "No Record";
-                this.drdIsOnAmazon.SelectedValue = "";
+                Response.Write("ddlBookEditor_SelectedIndexChanged: " + ex.Message);
             }
         }
 
         protected void btnNewRecord_Click(object sender, EventArgs e)
         {
-            txtAuthorName.Text = "";
-            txtBookID.Text = "0";
-            txtBookTitle.Text = "";
-            txtDateCreated.Text = "";
-            drdIsOnAmazon.SelectedValue = "";
-            txtLength.Text = "";
+            try
+            {
+                txtAuthorName.Text = "";
+                txtBookID.Text = "0";
+                txtBookTitle.Text = "";
+                txtDateCreated.Text = "";
+                drdIsOnAmazon.SelectedValue = "";
+                txtLength.Text = "";
+            }
+            catch (Exception ex)
+            {
+                Response.Write("btnNewRecord: " + ex.Message);
+            }
         }
 
     }
