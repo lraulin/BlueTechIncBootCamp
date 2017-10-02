@@ -2,7 +2,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
   <div class="container">
-    <div class="my-jumbotron text-center">
+    <div class="jumbotron text-center">
       <h1>Record View</h1>
     </div>
   </div>
@@ -80,6 +80,4 @@
     </table>
     <asp:Label ID="lblRecordEditor" runat="server"></asp:Label>
   </div>
-
-
 </asp:Content>

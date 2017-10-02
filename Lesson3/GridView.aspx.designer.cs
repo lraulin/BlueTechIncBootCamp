@@ -13,40 +13,40 @@ namespace Lesson3 {
     public partial class GridView {
         
         /// <summary>
-        /// Calendar1 control.
+        /// clrCalendar control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Calendar Calendar1;
+        protected global::System.Web.UI.WebControls.Calendar clrCalendar;
         
         /// <summary>
-        /// lbl21a control.
+        /// lblCalendarLine1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbl21a;
+        protected global::System.Web.UI.WebControls.Label lblCalendarLine1;
         
         /// <summary>
-        /// lbl21b control.
+        /// lblCalendarLine2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbl21b;
+        protected global::System.Web.UI.WebControls.Label lblCalendarLine2;
         
         /// <summary>
-        /// lbl21c control.
+        /// lblCalendarLine3 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbl21c;
+        protected global::System.Web.UI.WebControls.Label lblCalendarLine3;
         
         /// <summary>
         /// dgBooks control.
@@ -130,13 +130,13 @@ namespace Lesson3 {
         protected global::System.Web.UI.WebControls.Label lblRadio;
         
         /// <summary>
-        /// ddl2 control.
+        /// ddlColor control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddl2;
+        protected global::System.Web.UI.WebControls.DropDownList ddlColor;
         
         /// <summary>
         /// lblDropDown2 control.
@@ -148,13 +148,13 @@ namespace Lesson3 {
         protected global::System.Web.UI.WebControls.Label lblDropDown2;
         
         /// <summary>
-        /// ImageButton1 control.
+        /// btnReset control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton1;
+        protected global::System.Web.UI.WebControls.ImageButton btnReset;
         
         /// <summary>
         /// lblImage control.

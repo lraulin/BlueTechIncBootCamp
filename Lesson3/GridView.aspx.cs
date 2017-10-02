@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.Configuration;
 using System.Globalization;
 using System.Linq;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using BooksCompanion;
@@ -21,9 +20,13 @@ namespace Lesson3
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
-            {
                 PopulateWebControls();
-            }
+        }
+
+        private Boolean CanCovert(String value, Type type)
+        {
+            TypeConverter converter = TypeDescriptor.GetConverter(type);
+            return converter.IsValid(value);
         }
 
         private void PopulateWebControls()
@@ -47,24 +50,16 @@ namespace Lesson3
                 this.rdoBooks.DataValueField = "BookID";
                 this.rdoBooks.DataBind();
 
-                ddlBooks.Items.Insert(0, new ListItem("--Select--"));
+                this.ddlBooks.Items.Insert(0, new ListItem("--Select--"));
 
-                ddl2.Items.Add("Red");
-                ddl2.Items.Add("Blue");
-                ddl2.Items.Add("Green");
-
-                Response.Write(rdoBooks.SelectedValue.ToString());
+                this.ddlColor.Items.Add("Red");
+                this.ddlColor.Items.Add("Blue");
+                this.ddlColor.Items.Add("Green");
             }
             catch (Exception ex)
             {
-                Response.Write("PopulateWebControls: " + ex.Message);
+                this.lblSelection.Text = "PopulateWebControls: " + ex.Message;
             }
-        }
-
-        private Boolean CanCovert(String value, Type type)
-        {
-            TypeConverter converter = TypeDescriptor.GetConverter(type);
-            return converter.IsValid(value);
         }
 
         private void BindSelections()
@@ -72,20 +67,15 @@ namespace Lesson3
             try
             {
                 iSelections.Clear();
-                // Add dropdown list selection
-                if (CanCovert(ddlBooks.SelectedValue, typeof(int)))
-                    iSelections.Add(int.Parse(ddlBooks.SelectedValue));
+                if (CanCovert(this.ddlBooks.SelectedValue, typeof(int)))
+                    iSelections.Add(int.Parse(this.ddlBooks.SelectedValue));
 
-                // Add radio list selection
-                if (CanCovert(rdoBooks.SelectedValue, typeof(int)))
-                    iSelections.Add(int.Parse(rdoBooks.SelectedValue));
+                if (CanCovert(this.rdoBooks.SelectedValue, typeof(int)))
+                    iSelections.Add(int.Parse(this.rdoBooks.SelectedValue));
 
-                // Add checkbox list selection(s)
-                foreach (ListItem item in chkBooks.Items)
-                {
+                foreach (ListItem item in this.chkBooks.Items)
                     if (item.Selected && CanCovert(item.Value, typeof(int)))
                         iSelections.Add(int.Parse(item.Value));
-                }
 
                 Books oBooks = new Books(sCnxn, sLogPath);
                 List<Book> oList = new List<Book>();
@@ -95,12 +85,12 @@ namespace Lesson3
                 this.dgBooks.DataSource = oListFiltered;
                 this.dgBooks.DataBind();
 
-                lblTotalPrice.Text = "Total Price: $" + oBooks.TotalPrice.ToString("0.##");
-                lblAveragePrice.Text = "Average Price: $" + oBooks.AveragePrice.ToString("0.##");
+                this.lblTotalPrice.Text = "Total Price: $" + oBooks.TotalPrice.ToString("0.##");
+                this.lblAveragePrice.Text = "Average Price: $" + oBooks.AveragePrice.ToString("0.##");
             }
             catch (Exception ex)
             {
-                Response.Write("BindSelections:" + ex.Message);
+                this.lblSelection.Text = "BindSelections:" + ex.Message;
             }
         }
 
@@ -118,22 +108,58 @@ namespace Lesson3
                 this.dgBooks.DataSource = oSelectedBooks;
                 this.dgBooks.DataBind();
 
-                lblTotalPrice.Text = "Total Price: $" + oBooks.TotalPrice.ToString("0.##");
-                lblAveragePrice.Text = "Average Price: $" + oBooks.AveragePrice.ToString("0.##");
+                this.lblTotalPrice.Text = "Total Price: $" + oBooks.TotalPrice.ToString("0.##");
+                this.lblAveragePrice.Text = "Average Price: $" + oBooks.AveragePrice.ToString("0.##");
             }
             catch (Exception ex)
             {
-                Response.Write("UpdateSelection:" + ex.Message);
+                this.lblSelection.Text = "UpdateSelection:" + ex.Message;
             }
         }
 
-        protected void Calendar1_SelectionChanged(object sender, EventArgs e)
+        protected void btnRemoveSelected_Click(object sender, EventArgs e)
         {
-            this.lbl21a.Text = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(Calendar1.SelectedDate.Month);
-            Calendar1.SelectedDate = Calendar1.SelectedDate.AddHours(10);
-            this.lbl21b.Text = "Date & Time: " + Calendar1.SelectedDate;
-            Calendar1.SelectedDate = Calendar1.SelectedDate.AddHours(14);
-            this.lbl21c.Text = "Next Day: " + Calendar1.SelectedDate;
+            try
+            {
+                iSelections = iSelections.Distinct<int>().ToList<int>();
+                for (int i = this.dgBooks.Items.Count - 1; i >= 0; i--)
+                {
+                    CheckBox chkSelections = (CheckBox)dgBooks.Items[i].FindControl("chkSelection");
+                    if (chkSelections.Checked)
+                    {
+                        string sSelectedID = this.dgBooks.Items[i].Cells[0].Text;
+                        iSelections.Remove(int.Parse(sSelectedID));
+                        if (this.ddlBooks.SelectedValue == sSelectedID)
+                            this.ddlBooks.SelectedIndex = 0;
+                        if (this.rdoBooks.SelectedValue == sSelectedID)
+                            this.rdoBooks.SelectedIndex = 0;
+                        foreach (ListItem item in chkBooks.Items)
+                            if (item.Value == sSelectedID)
+                                item.Selected = false;
+                    }
+                }
+                UpdateSelection();
+            }
+            catch (Exception ex)
+            {
+                this.lblSelection.Text = "btnRemoveSelected: " + ex.Message;
+            }
+        }
+
+        protected void btnReset_Click(object sender, ImageClickEventArgs e)
+        {
+            try
+            {
+                this.lblSelection.Text = "RESET!";
+                this.rdoBooks.ClearSelection();
+                this.chkBooks.ClearSelection();
+                this.ddlBooks.ClearSelection();
+                BindSelections();
+            }
+            catch (Exception ex)
+            {
+                this.lblSelection.Text = "btnReset_Click: " + ex.Message;
+            }
         }
 
         protected void chkBooks_SelectedIndexChanged(object sender, EventArgs e)
@@ -142,39 +168,54 @@ namespace Lesson3
             {
                 string sCnxn = ConfigurationManager.AppSettings["Cnxn"];
                 string sLogPath = ConfigurationManager.AppSettings["LogPath"];
-
                 Books oBooks = new Books(sCnxn, sLogPath);
-
                 this.lblSelection.Text = "You have selected:<br/>";
-
-                foreach (ListItem i in chkBooks.Items)
-                {
-                    if (i.Selected)
-                    {
-                        if (int.TryParse(i.Value, out int x))
-                        {
-                            this.lblSelection.Text += "\"" + oBooks[int.Parse(i.Value)].BookTitle + ",\" by " + oBooks[int.Parse(i.Value)].AuthorName + "<br/>";
-                        }
+                foreach (ListItem item in chkBooks.Items)
+                    if (item.Selected)
+                        if (CanCovert(item.Value, typeof(int)))
+                            this.lblSelection.Text += "\"" + oBooks[int.Parse(item.Value)].BookTitle + ",\" by " + oBooks[int.Parse(item.Value)].AuthorName + "<br/>";
                         else
-                        {
-                            this.lblSelection.Text += i.Value.ToString() + "<br/>";
-                        }
-                    }
-                }
+                            this.lblSelection.Text += item.Value.ToString() + "<br/>";
                 BindSelections();
             }
             catch (Exception ex)
             {
-
                 this.lblSelection.Text = "chkBooks_SelectedIndexChanged: " + ex.Message;
             }
+        }
+
+        protected void clrCalendar_DayRender(object sender, DayRenderEventArgs e)
+        {
+            try
+            {
+                if (e.Day.Date > DateTime.Today ||
+                    e.Day.Date < DateTime.Today ||
+                    e.Day.Date.DayOfWeek.ToString() == "Saturday" ||
+                    e.Day.Date.DayOfWeek.ToString() == "Sunday")
+                {
+                    e.Day.IsSelectable = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                this.lblSelection.Text = "clrCalendar_DayRender: " + ex.Message;
+            }
+        }
+
+        protected void clrCalendar_SelectionChanged(object sender, EventArgs e)
+        {
+            this.lblCalendarLine1.Text = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(this.clrCalendar.SelectedDate.Month);
+            this.clrCalendar.SelectedDate = this.clrCalendar.SelectedDate.AddHours(10);
+            this.lblCalendarLine2.Text = "Date & Time: " + this.clrCalendar.SelectedDate;
+            this.clrCalendar.SelectedDate = this.clrCalendar.SelectedDate.AddHours(14);
+            this.lblCalendarLine3.Text = "Next Day: " + this.clrCalendar.SelectedDate;
         }
 
         protected void rdoBooks_SelectedIndexChanged(object sender, EventArgs e)
         {
             try
             {
-                if (rdoBooks.SelectedValue != "")
+                if (this.rdoBooks.SelectedValue != "")
                 {
                     int iSelectedID = int.Parse(rdoBooks.SelectedItem.Value);
                     Books oBooks = new Books(sCnxn, sLogPath);
@@ -184,7 +225,6 @@ namespace Lesson3
             }
             catch (Exception ex)
             {
-
                 this.lblSelection.Text = "rdoBooks_SelectedIndexChanged: " + ex.Message;
             }
         }
@@ -207,113 +247,42 @@ namespace Lesson3
             }
             catch (Exception ex)
             {
-
                 this.lblSelection.Text = "ddlBooks_SelectedIndexChanged: " + ex.Message;
             }
         }
 
-        protected void ddl2_SelectedIndexChanged(object sender, EventArgs e)
+        protected void ddlColor_SelectedIndexChanged(object sender, EventArgs e)
         {
             try
             {
-                chkBooks.Items.Remove("Stop Sign");
-                chkBooks.Items.Remove("Firetruck");
-                chkBooks.Items.Remove("Sky");
-                chkBooks.Items.Remove("Blueberry");
-                chkBooks.Items.Remove("Grass");
-                chkBooks.Items.Remove("Money");
+                this.chkBooks.Items.Remove("Stop Sign");
+                this.chkBooks.Items.Remove("Firetruck");
+                this.chkBooks.Items.Remove("Sky");
+                this.chkBooks.Items.Remove("Blueberry");
+                this.chkBooks.Items.Remove("Grass");
+                this.chkBooks.Items.Remove("Money");
 
-                if (ddl2.Text == "Red")
+                if (this.ddlColor.Text == "Red")
                 {
-                    chkBooks.Items.Add("Stop Sign");
-                    chkBooks.Items.Add("Firetruck");
+                    this.chkBooks.Items.Add("Stop Sign");
+                    this.chkBooks.Items.Add("Firetruck");
                 }
-                if (ddl2.Text == "Blue")
+                if (this.ddlColor.Text == "Blue")
                 {
-                    chkBooks.Items.Add("Sky");
-                    chkBooks.Items.Add("Blueberry");
+                    this.chkBooks.Items.Add("Sky");
+                    this.chkBooks.Items.Add("Blueberry");
                 }
-                if (ddl2.Text == "Green")
+                if (this.ddlColor.Text == "Green")
                 {
-                    chkBooks.Items.Add("Grass");
-                    chkBooks.Items.Add("Money");
+                    this.chkBooks.Items.Add("Grass");
+                    this.chkBooks.Items.Add("Money");
                 }
-                DataBind();
-            }
-            catch (Exception ex)
-            {
-                this.lblSelection.Text = "ddl2_SelectedIndexChanged: " + ex.Message;
-            }
-        }
-
-        protected void Calendar1_DayRender(object sender, DayRenderEventArgs e)
-        {
-            try
-            {
-                if (e.Day.Date > DateTime.Today ||
-                    e.Day.Date < DateTime.Today ||
-                    e.Day.Date.DayOfWeek.ToString() == "Saturday" ||
-                    e.Day.Date.DayOfWeek.ToString() == "Sunday")
-                {
-                    e.Day.IsSelectable = false;
-                }
-            }
-            catch (Exception ex)
-            {
-                this.lblSelection.Text = "Calendar1_DayRender: " + ex.Message;
-            }
-        }
-
-        protected void ImageButton1_Click(object sender, ImageClickEventArgs e)
-        {
-            try
-            {
-                lblSelection.Text = "RESET!";
-                rdoBooks.ClearSelection();
-                chkBooks.ClearSelection();
-                ddlBooks.ClearSelection();
                 BindSelections();
             }
             catch (Exception ex)
             {
-                this.lblSelection.Text = "ImageButton1_Click: " + ex.Message;
+                this.lblSelection.Text = "ddlColor_SelectedIndexChanged: " + ex.Message;
             }
         }
-
-        protected void btnRemoveSelected_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                iSelections = iSelections.Distinct<int>().ToList<int>();
-                for (int i = dgBooks.Items.Count - 1; i >= 0; i--)
-                {
-                    CheckBox chkS = (CheckBox)dgBooks.Items[i].FindControl("chkSelection");
-                    if (chkS.Checked)
-                    {
-                        string sSelectedID = dgBooks.Items[i].Cells[0].Text;
-                        int iSelectedID = int.Parse(sSelectedID);
-                        iSelections.Remove(int.Parse(sSelectedID));
-                        Response.Write("ID: " + i);
-                        if (ddlBooks.SelectedValue == sSelectedID)
-                            ddlBooks.SelectedIndex = 0;
-                        if (rdoBooks.SelectedValue == sSelectedID)
-                            rdoBooks.SelectedIndex = 0;
-                        foreach (ListItem item in chkBooks.Items)
-                        {
-                            if (item.Value == sSelectedID)
-                                item.Selected = false;
-                        }
-                    }
-                }
-                UpdateSelection();
-            }
-            catch (Exception ex)
-            {
-
-                Response.Write("btnRemoveSelected: " + ex.Message);
-            }
-        }
-
-       
     }
 }

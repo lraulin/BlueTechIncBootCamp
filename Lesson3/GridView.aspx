@@ -2,7 +2,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
   <div class="container">
-    <div class="my-jumbotron text-center">
+    <div class="jumbotron text-center">
       <h1>Grid View</h1>
     </div>
   </div>
@@ -10,14 +10,14 @@
     <div class="row">
       <div class="col-xs-3">
         <div class="calendar-box">
-          <asp:Calendar ID="Calendar1" runat="server" OnSelectionChanged="Calendar1_SelectionChanged" OnDayRender="Calendar1_DayRender" CssClass="calendar"></asp:Calendar>
+          <asp:Calendar ID="clrCalendar" runat="server" OnSelectionChanged="clrCalendar_SelectionChanged" OnDayRender="clrCalendar_DayRender" CssClass="calendar"></asp:Calendar>
         </div>
         <div class="well well-sm text-center">
-          <asp:Label ID="lbl21a" runat="server"></asp:Label>
+          <asp:Label ID="lblCalendarLine1" runat="server"></asp:Label>
           <br />
-          <asp:Label ID="lbl21b" runat="server"></asp:Label>
+          <asp:Label ID="lblCalendarLine2" runat="server"></asp:Label>
           <br />
-          <asp:Label ID="lbl21c" runat="server"></asp:Label>
+          <asp:Label ID="lblCalendarLine3" runat="server"></asp:Label>
         </div>
       </div>
       <div class="col-xs-9">
@@ -79,13 +79,13 @@
     </div>
     <div class="row">
       <div class="col-xs-2">
-        <asp:DropDownList ID="ddl2" runat="server" OnSelectedIndexChanged="ddl2_SelectedIndexChanged" AutoPostBack="true" Style="height: 27px"></asp:DropDownList>
+        <asp:DropDownList ID="ddlColor" runat="server" OnSelectedIndexChanged="ddlColor_SelectedIndexChanged" AutoPostBack="true" Style="height: 27px"></asp:DropDownList>
         <div class="card">
           <asp:Label ID="lblDropDown2" runat="server"></asp:Label>
         </div>
       </div>
       <div class="col-xs-2">
-        <asp:ImageButton ID="ImageButton1" ImageUrl="~/media/tabletinykitten.jpg" runat="server" OnClick="ImageButton1_Click" />
+        <asp:ImageButton ID="btnReset" ImageUrl="~/media/tabletinykitten.jpg" runat="server" OnClick="btnReset_Click" />
         <asp:Label ID="lblImage" runat="server"></asp:Label>
       </div>
       <div class="col-xs-4">
