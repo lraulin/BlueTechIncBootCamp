@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Configuration;
 using System.Web.UI.WebControls;
 using BooksCompanion;
+using System.Linq;
 
 namespace Lesson3
 {
@@ -11,22 +12,34 @@ namespace Lesson3
     {
         private string sCnxn = ConfigurationManager.AppSettings["Cnxn"];
         private string sLogPath = ConfigurationManager.AppSettings["LogPath"];
-        private static List<int> iSelections = new List<int>();
+        private static List<Book> oList = new List<Book>();
 
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
-                PopulateList();
+                ListUpdate();
         }
 
-        protected void PopulateList()
+        protected void ListUpdate()
         {
             Books oBooks = new Books(sCnxn, sLogPath);
-            this.ddlBookEditor.DataSource = oBooks.Values;
+            oList.AddRange(oBooks.Values);
+            this.ddlBookEditor.DataSource = oList;
             this.ddlBookEditor.DataTextField = "BookTitle";
             this.ddlBookEditor.DataValueField = "BookID";
             this.ddlBookEditor.DataBind();
             this.ddlBookEditor.Items.Insert(0, new ListItem("--Select--"));
+        }
+
+        protected void FieldsClear()
+        {
+            this.txtAuthorName.Text = "";
+            this.txtBookID.Text = "0";
+            this.txtBookTitle.Text = "";
+            this.txtDateCreated.Text = "";
+            this.drdIsOnAmazon.SelectedValue = "";
+            this.txtLength.Text = "";
+            this.txtPrice.Text = "";
         }
 
         private Boolean CanCovert(String value, Type type)
@@ -37,23 +50,29 @@ namespace Lesson3
 
         protected void btnSaveRecord_Click(object sender, EventArgs e)
         {
-            try
+            if (Page.IsValid)
             {
-                Book oBook = new BooksCompanion.Book();
-                oBook.BookID = Int32.Parse(txtBookID.Text);
-                oBook.AuthorName = this.txtAuthorName.Text;
-                oBook.BookTitle = this.txtBookTitle.Text;
-                oBook.IsOnAmazon = Boolean.Parse(drdIsOnAmazon.Text);
-                oBook.Length = Int32.Parse(txtLength.Text);
-                this.txtPrice.Text = this.txtPrice.Text.Replace("$", string.Empty);
-                oBook.Price = decimal.Parse(txtPrice.Text);
-                oBook.Save(sCnxn, sLogPath);
-                this.lblRecordEditor.Text = "Save Successful!";
-                PopulateList();
-            }
-            catch (Exception ex)
+                try
+                {
+                    Book oBook = new BooksCompanion.Book();
+                    oBook.BookID = Int32.Parse(txtBookID.Text);
+                    oBook.AuthorName = this.txtAuthorName.Text;
+                    oBook.BookTitle = this.txtBookTitle.Text;
+                    oBook.IsOnAmazon = Boolean.Parse(drdIsOnAmazon.Text);
+                    oBook.Length = Int32.Parse(txtLength.Text);
+                    oBook.Price = decimal.Parse(txtPrice.Text.Replace("$", string.Empty));
+                    oBook.Save(sCnxn, sLogPath);
+                    this.lblRecordEditor.Text = "Save Successful!";
+                    ListUpdate();
+                }
+                catch (Exception ex)
+                {
+                    this.lblRecordEditor.Text = "btnSaveRecord_Click: " + ex.Message;
+                    this.lblRecordEditor.Text += "\nRecord not saved!";
+                } 
+            } else
             {
-                this.lblRecordEditor.Text = "btnSaveRecord_Click: " + ex.Message;
+                this.lblRecordEditor.Text = "Record not saved. Please fill all required fields.";
             }
         }
 
@@ -65,7 +84,9 @@ namespace Lesson3
                 if (CanCovert(this.ddlBookEditor.SelectedItem.Value, typeof(int)))
                 {
                     int iSearchID = Convert.ToInt32(this.ddlBookEditor.SelectedItem.Value);
-                    Book oBook = new Book(sCnxn, sLogPath, iSearchID);
+                    Book oBook = new Book();
+                    oBook = (from x in oList where x.BookID == iSearchID select x).Single();
+
                     if (Convert.ToBoolean(oBook.BookID))
                     {
                         this.txtAuthorName.Text = oBook.AuthorName;
@@ -88,13 +109,7 @@ namespace Lesson3
         {
             try
             {
-                this.txtAuthorName.Text = "";
-                this.txtBookID.Text = "0";
-                this.txtBookTitle.Text = "";
-                this.txtDateCreated.Text = "";
-                this.drdIsOnAmazon.SelectedValue = "";
-                this.txtLength.Text = "";
-                this.txtPrice.Text = "";
+                FieldsClear();
                 this.ddlBookEditor.SelectedIndex = 0;
             }
             catch (Exception ex)

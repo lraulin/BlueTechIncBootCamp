@@ -67,22 +67,13 @@ namespace Lesson3 {
         protected global::System.Web.UI.WebControls.Button btnRemoveSelected;
         
         /// <summary>
-        /// lblTotalPrice control.
+        /// lblStats control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblTotalPrice;
-        
-        /// <summary>
-        /// lblAveragePrice control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblAveragePrice;
+        protected global::System.Web.UI.WebControls.Label lblStats;
         
         /// <summary>
         /// ddlBooks control.

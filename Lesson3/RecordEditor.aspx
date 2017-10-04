@@ -14,7 +14,7 @@
           <asp:Label ID="lblBookID" runat="server" Text="Book ID"></asp:Label>
         </td>
         <td>
-          <asp:TextBox ID="txtBookID" runat="server" ToolTip="Enter 0 to insert new record" ReadOnly="True"></asp:TextBox>
+          <asp:TextBox ID="txtBookID" runat="server" ToolTip="Enter 0 to insert new record" ReadOnly="True" Text="0"></asp:TextBox>
         </td>
       </tr>
       <tr>
@@ -24,6 +24,9 @@
         <td>
           <asp:TextBox ID="txtBookTitle" runat="server" ToolTip="Enter Book Title"></asp:TextBox>
         </td>
+        <td>
+          <asp:RequiredFieldValidator ID="rfvBookTitle" runat="server" ControlToValidate="txtBookTitle" ErrorMessage="Please enter a book title" CssClass="warning"></asp:RequiredFieldValidator>
+        </td>
       </tr>
       <tr>
         <td>
@@ -32,6 +35,9 @@
         <td>
           <asp:TextBox ID="txtAuthorName" runat="server" ToolTip="Enter Author Name"></asp:TextBox>
         </td>
+        <td>
+          <asp:RequiredFieldValidator ID="rvfAuthorName" runat="server" ControlToValidate="txtAuthorName" ErrorMessage="Please enter the author's name" CssClass="warning"></asp:RequiredFieldValidator>
+        </td>
       </tr>
       <tr>
         <td>
@@ -39,6 +45,9 @@
         </td>
         <td>
           <asp:TextBox ID="txtLength" runat="server" ToolTip="Enter Number of Pages"></asp:TextBox>
+        </td>
+        <td>
+          <asp:RangeValidator ID="rvLength" runat="server" ControlToValidate="txtLength" ErrorMessage="Please enter a positive integer" MinimumValue="0" MaximumValue="1000000" Type="Integer" CssClass="warning"></asp:RangeValidator>
         </td>
       </tr>
       <tr>
@@ -52,6 +61,9 @@
             <asp:ListItem Text="False" />
           </asp:DropDownList>
         </td>
+        <td>
+          <asp:RequiredFieldValidator ID="rfvIsOnAmazon" runat="server" ControlToValidate="drdIsOnAmazon" ErrorMessage="Please select 'true' or 'false'." CssClass="warning"></asp:RequiredFieldValidator>
+        </td>
       </tr>
       <tr>
         <td>
@@ -59,6 +71,9 @@
         </td>
         <td>
           <asp:TextBox ID="txtPrice" runat="server" ToolTip="Enter price in USD as a decimal number"></asp:TextBox>
+        </td>
+        <td>
+          <asp:RangeValidator ID="rvPrice" runat="server" ControlToValidate="txtLength" ErrorMessage="Please enter a currency value" MinimumValue="0" MaximumValue="1000000" Type="Currency" CssClass="warning"></asp:RangeValidator>
         </td>
       </tr>
       <tr>
@@ -78,6 +93,6 @@
         </td>
       </tr>
     </table>
-    <asp:Label ID="lblRecordEditor" runat="server"></asp:Label>
+    <asp:Label ID="lblRecordEditor" CssClass="message" runat="server"></asp:Label>
   </div>
 </asp:Content>

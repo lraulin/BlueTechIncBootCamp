@@ -20,3 +20,16 @@
 .jumbotron .h1 {
     color: white;
 }
+
+.warning {
+    color: red;
+}
+
+.okay {
+    color: green;
+}
+
+.message {
+    background-color: white;
+    border-radius: 5px;
+}

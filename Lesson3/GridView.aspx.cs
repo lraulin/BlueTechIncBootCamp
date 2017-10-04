@@ -15,6 +15,8 @@ namespace Lesson3
     {
         private string sCnxn = ConfigurationManager.AppSettings["Cnxn"];
         private string sLogPath = ConfigurationManager.AppSettings["LogPath"];
+        private static List<Book> oList = new List<Book>();
+        private static List<Book> oListFiltered = new List<Book>();
         private static List<int> iSelections = new List<int>();
 
         protected void Page_Load(object sender, EventArgs e)
@@ -34,6 +36,7 @@ namespace Lesson3
             try
             {
                 Books oBooks = new Books(sCnxn, sLogPath);
+                oList.AddRange(oBooks.Values);
 
                 this.ddlBooks.DataSource = oBooks.Values;
                 this.ddlBooks.DataTextField = "BookTitle";
@@ -62,11 +65,13 @@ namespace Lesson3
             }
         }
 
-        private void BindSelections()
+        private void ListUpdate()
         {
             try
             {
                 iSelections.Clear();
+                oListFiltered.Clear();
+
                 if (CanCovert(this.ddlBooks.SelectedValue, typeof(int)))
                     iSelections.Add(int.Parse(this.ddlBooks.SelectedValue));
 
@@ -76,17 +81,8 @@ namespace Lesson3
                 foreach (ListItem item in this.chkBooks.Items)
                     if (item.Selected && CanCovert(item.Value, typeof(int)))
                         iSelections.Add(int.Parse(item.Value));
-
-                Books oBooks = new Books(sCnxn, sLogPath);
-                List<Book> oList = new List<Book>();
-                List<Book> oListFiltered = new List<Book>();
-                oList.AddRange(oBooks.Values);
-                oListFiltered = oList.FindAll(delegate (Book b1) { return iSelections.Contains(b1.BookID); });
-                this.dgBooks.DataSource = oListFiltered;
-                this.dgBooks.DataBind();
-
-                this.lblTotalPrice.Text = "Total Price: $" + oBooks.TotalPrice.ToString("0.##");
-                this.lblAveragePrice.Text = "Average Price: $" + oBooks.AveragePrice.ToString("0.##");
+                BindSelections();
+                
             }
             catch (Exception ex)
             {
@@ -94,13 +90,10 @@ namespace Lesson3
             }
         }
 
-        private void UpdateSelection()
+        private void BindSelections()
         {
             try
             {
-                Books oBooks = new Books(sCnxn, sLogPath);
-                List<Book> oList = new List<Book>();
-                oList.AddRange(oBooks.Values);
                 IEnumerable<object> oSelectedBooks =
                     from book in oList
                     where iSelections.Contains(book.BookID)
@@ -108,8 +101,35 @@ namespace Lesson3
                 this.dgBooks.DataSource = oSelectedBooks;
                 this.dgBooks.DataBind();
 
-                this.lblTotalPrice.Text = "Total Price: $" + oBooks.TotalPrice.ToString("0.##");
-                this.lblAveragePrice.Text = "Average Price: $" + oBooks.AveragePrice.ToString("0.##");
+                IEnumerable<int> iLength =
+                    from book in oList
+                    where iSelections.Contains(book.BookID)
+                    select book.Length;
+                int iTotalLength = 0;
+                int iAvgLength = 0;
+                if (oSelectedBooks.Count() > 0)
+                {
+                    iTotalLength = iLength.Sum();
+                    iAvgLength = iTotalLength / iLength.Count();
+                }
+
+                IEnumerable<decimal> dPrices =
+                    from book in oList
+                    where iSelections.Contains(book.BookID)
+                    select book.Price;
+                decimal dTotalPrice = 0;
+                decimal dAvgPrice = 0;
+                if (oSelectedBooks.Count() > 0)
+                {
+                    dTotalPrice = dPrices.Sum();
+                    dAvgPrice = dTotalPrice / dPrices.Count();
+                }
+
+                this.lblStats.Text = "";
+                this.lblStats.Text += "Total Length: " + iTotalLength + " pages | ";
+                this.lblStats.Text += "Avg Length: " + iAvgLength + " pages | ";
+                this.lblStats.Text += "Total Price: $" + dTotalPrice.ToString("0.## | ");
+                this.lblStats.Text += "Avg Price: $" + dAvgPrice.ToString("0.##");
             }
             catch (Exception ex)
             {
@@ -138,7 +158,7 @@ namespace Lesson3
                                 item.Selected = false;
                     }
                 }
-                UpdateSelection();
+                BindSelections();
             }
             catch (Exception ex)
             {
@@ -154,7 +174,7 @@ namespace Lesson3
                 this.rdoBooks.ClearSelection();
                 this.chkBooks.ClearSelection();
                 this.ddlBooks.ClearSelection();
-                BindSelections();
+                ListUpdate();
             }
             catch (Exception ex)
             {
@@ -166,17 +186,23 @@ namespace Lesson3
         {
             try
             {
-                string sCnxn = ConfigurationManager.AppSettings["Cnxn"];
-                string sLogPath = ConfigurationManager.AppSettings["LogPath"];
-                Books oBooks = new Books(sCnxn, sLogPath);
-                this.lblSelection.Text = "You have selected:<br/>";
-                foreach (ListItem item in chkBooks.Items)
-                    if (item.Selected)
-                        if (CanCovert(item.Value, typeof(int)))
-                            this.lblSelection.Text += "\"" + oBooks[int.Parse(item.Value)].BookTitle + ",\" by " + oBooks[int.Parse(item.Value)].AuthorName + "<br/>";
-                        else
-                            this.lblSelection.Text += item.Value.ToString() + "<br/>";
-                BindSelections();
+                this.lblSelection.Text = "You checked:<br/>";
+                if (chkBooks.Items.Count > 0)
+                {
+                    foreach (ListItem item in chkBooks.Items)
+                        if (item.Selected)
+                            if (CanCovert(item.Value, typeof(int)))
+                            {
+                                Book oBook = new Book();
+                                oBook = (from x in oList where x.BookID == int.Parse(item.Value) select x).Single();
+                                this.lblSelection.Text += "\"" + oBook.BookTitle + ",\" by " + oBook.AuthorName + "<br/>";
+                            }
+                            else
+                                this.lblSelection.Text += item.Value.ToString() + "<br/>";
+                }
+                else
+                    this.lblSelection.Text = "All items have been unchecked.";
+                ListUpdate();
             }
             catch (Exception ex)
             {
@@ -218,9 +244,10 @@ namespace Lesson3
                 if (this.rdoBooks.SelectedValue != "")
                 {
                     int iSelectedID = int.Parse(rdoBooks.SelectedItem.Value);
-                    Books oBooks = new Books(sCnxn, sLogPath);
-                    this.lblSelection.Text = "You have selected \"" + oBooks[iSelectedID].BookTitle + ",\" by " + oBooks[iSelectedID].AuthorName + ".";
-                    BindSelections();
+                    Book oBook = new Book();
+                    oBook = (from x in oList where x.BookID == iSelectedID select x).Single();
+                    this.lblSelection.Text = "You selected \"" + oBook.BookTitle + ",\" by " + oBook.AuthorName + " from the radio button list.";
+                    ListUpdate();
                 }
             }
             catch (Exception ex)
@@ -236,14 +263,13 @@ namespace Lesson3
                 if (CanCovert(ddlBooks.SelectedValue, typeof(int)))
                 {
                     int iSelectedID = int.Parse(ddlBooks.SelectedItem.Value);
-                    Books oBooks = new Books(sCnxn, sLogPath);
-                    this.lblSelection.Text = "You have selected \"" + oBooks[iSelectedID].BookTitle + ",\" by " + oBooks[iSelectedID].AuthorName + ".";
+                    Book oBook = new Book();
+                    oBook = (from x in oList where x.BookID == iSelectedID select x).Single();
+                    this.lblSelection.Text = "You selected \"" + oBook.BookTitle + ",\" by " + oBook.AuthorName + " from the dropdown list.";
                 }
                 else
-                {
                     this.lblSelection.Text = "You have reset the drop-down list.";
-                }
-                BindSelections();
+                ListUpdate();
             }
             catch (Exception ex)
             {
@@ -266,18 +292,21 @@ namespace Lesson3
                 {
                     this.chkBooks.Items.Add("Stop Sign");
                     this.chkBooks.Items.Add("Firetruck");
+                    this.lblSelection.Text = "You selected 'Red' from the colors list. Red things were added to the checkbox list.";
                 }
                 if (this.ddlColor.Text == "Blue")
                 {
                     this.chkBooks.Items.Add("Sky");
                     this.chkBooks.Items.Add("Blueberry");
+                    this.lblSelection.Text = "You selected 'Blue' from the colors list. Blue things were added to the checkbox list.";
                 }
                 if (this.ddlColor.Text == "Green")
                 {
                     this.chkBooks.Items.Add("Grass");
                     this.chkBooks.Items.Add("Money");
+                    this.lblSelection.Text = "You selected 'Green' from the colors list. Green things added to the checkbox list.";
                 }
-                BindSelections();
+                ListUpdate();
             }
             catch (Exception ex)
             {

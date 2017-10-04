@@ -58,6 +58,15 @@ namespace Lesson3 {
         protected global::System.Web.UI.WebControls.TextBox txtBookTitle;
         
         /// <summary>
+        /// rfvBookTitle control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvBookTitle;
+        
+        /// <summary>
         /// lblAuthorName control.
         /// </summary>
         /// <remarks>
@@ -74,6 +83,15 @@ namespace Lesson3 {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAuthorName;
+        
+        /// <summary>
+        /// rvfAuthorName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rvfAuthorName;
         
         /// <summary>
         /// lblLength control.
@@ -94,6 +112,15 @@ namespace Lesson3 {
         protected global::System.Web.UI.WebControls.TextBox txtLength;
         
         /// <summary>
+        /// rvLength control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RangeValidator rvLength;
+        
+        /// <summary>
         /// lblIsOnAmazon control.
         /// </summary>
         /// <remarks>
@@ -112,6 +139,15 @@ namespace Lesson3 {
         protected global::System.Web.UI.WebControls.DropDownList drdIsOnAmazon;
         
         /// <summary>
+        /// rfvIsOnAmazon control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvIsOnAmazon;
+        
+        /// <summary>
         /// lblPrice control.
         /// </summary>
         /// <remarks>
@@ -128,6 +164,15 @@ namespace Lesson3 {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtPrice;
+        
+        /// <summary>
+        /// rvPrice control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RangeValidator rvPrice;
         
         /// <summary>
         /// lblDateCreated control.

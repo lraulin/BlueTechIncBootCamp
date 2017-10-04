@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="GridView.aspx.cs" Inherits="Lesson3.GridView" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="GridView.aspx.cs" Inherits="Lesson3.GridView" MaintainScrollPositionOnPostback="true" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
   <div class="container">
@@ -54,8 +54,7 @@
         </asp:DataGrid>
         <div id="SearchBox">
           <asp:Button ID="btnRemoveSelected" runat="server" Text="Remove" OnClick="btnRemoveSelected_Click" />
-          <asp:Label ID="lblTotalPrice" runat="server" Text="Total Price: "></asp:Label>
-          <asp:Label ID="lblAveragePrice" runat="server" Text="Average Price: "></asp:Label>
+          <asp:Label ID="lblStats" runat="server" CssClass="message"></asp:Label>
         </div>
       </div>
     </div>
@@ -88,7 +87,7 @@
         <asp:ImageButton ID="btnReset" ImageUrl="~/media/tabletinykitten.jpg" runat="server" OnClick="btnReset_Click" />
         <asp:Label ID="lblImage" runat="server"></asp:Label>
       </div>
-      <div class="col-xs-4">
+      <div class="col-xs-4 message">
         <asp:Label ID="lblSelection" runat="server"></asp:Label>
       </div>
     </div>
