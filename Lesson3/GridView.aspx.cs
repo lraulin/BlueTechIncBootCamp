@@ -100,36 +100,6 @@ namespace Lesson3
                     select book;
                 this.dgBooks.DataSource = oSelectedBooks;
                 this.dgBooks.DataBind();
-
-                IEnumerable<int> iLength =
-                    from book in oList
-                    where iSelections.Contains(book.BookID)
-                    select book.Length;
-                int iTotalLength = 0;
-                int iAvgLength = 0;
-                if (oSelectedBooks.Count() > 0)
-                {
-                    iTotalLength = iLength.Sum();
-                    iAvgLength = iTotalLength / iLength.Count();
-                }
-
-                IEnumerable<decimal> dPrices =
-                    from book in oList
-                    where iSelections.Contains(book.BookID)
-                    select book.Price;
-                decimal dTotalPrice = 0;
-                decimal dAvgPrice = 0;
-                if (oSelectedBooks.Count() > 0)
-                {
-                    dTotalPrice = dPrices.Sum();
-                    dAvgPrice = dTotalPrice / dPrices.Count();
-                }
-
-                this.lblStats.Text = "";
-                this.lblStats.Text += "Total Length: " + iTotalLength + " pages | ";
-                this.lblStats.Text += "Avg Length: " + iAvgLength + " pages | ";
-                this.lblStats.Text += "Total Price: $" + dTotalPrice.ToString("0.## | ");
-                this.lblStats.Text += "Avg Price: $" + dAvgPrice.ToString("0.##");
             }
             catch (Exception ex)
             {
