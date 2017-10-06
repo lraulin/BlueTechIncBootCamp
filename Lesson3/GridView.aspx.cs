@@ -17,7 +17,6 @@ namespace Lesson3
         private string sLogPath = ConfigurationManager.AppSettings["LogPath"];
         private static List<Book> oList = new List<Book>();
         private static List<Book> oListFiltered = new List<Book>();
-        private static List<int> iSelections = new List<int>();
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -69,20 +68,20 @@ namespace Lesson3
         {
             try
             {
-                iSelections.Clear();
                 oListFiltered.Clear();
 
                 if (CanCovert(this.ddlBooks.SelectedValue, typeof(int)))
-                    iSelections.Add(int.Parse(this.ddlBooks.SelectedValue));
+                    oListFiltered.Add(oList.Find(delegate (Book b1) { return b1.BookID == int.Parse(this.ddlBooks.SelectedValue); }));
 
                 if (CanCovert(this.rdoBooks.SelectedValue, typeof(int)))
-                    iSelections.Add(int.Parse(this.rdoBooks.SelectedValue));
+                    oListFiltered.Add(oList.Find(delegate (Book b1) { return b1.BookID == int.Parse(this.rdoBooks.SelectedValue); }));
 
                 foreach (ListItem item in this.chkBooks.Items)
                     if (item.Selected && CanCovert(item.Value, typeof(int)))
-                        iSelections.Add(int.Parse(item.Value));
+                        oListFiltered.Add(oList.Find(delegate (Book b1) { return b1.BookID == int.Parse(item.Value); }));
+
+                oListFiltered = oListFiltered.Distinct<Book>().ToList<Book>();
                 BindSelections();
-                
             }
             catch (Exception ex)
             {
@@ -94,7 +93,6 @@ namespace Lesson3
         {
             try
             {
-                oListFiltered = oList.FindAll(delegate (Book b1) { return iSelections.Contains(b1.BookID); });
                 this.dgBooks.DataSource = oListFiltered;
                 this.dgBooks.DataBind();
 
@@ -125,14 +123,14 @@ namespace Lesson3
         {
             try
             {
-                iSelections = iSelections.Distinct<int>().ToList<int>();
                 for (int i = this.dgBooks.Items.Count - 1; i >= 0; i--)
                 {
                     CheckBox chkSelections = (CheckBox)dgBooks.Items[i].FindControl("chkSelection");
                     if (chkSelections.Checked)
                     {
                         string sSelectedID = this.dgBooks.Items[i].Cells[0].Text;
-                        iSelections.Remove(int.Parse(sSelectedID));
+                        Book oBookToRemove = oListFiltered.Find(delegate (Book b1) { return (b1.BookID == int.Parse(sSelectedID)); });
+                        oListFiltered.Remove(oBookToRemove);
                         if (this.ddlBooks.SelectedValue == sSelectedID)
                             this.ddlBooks.ClearSelection();
                         if (this.rdoBooks.SelectedValue == sSelectedID)
@@ -158,7 +156,6 @@ namespace Lesson3
                 this.rdoBooks.ClearSelection();
                 this.chkBooks.ClearSelection();
                 this.ddlBooks.ClearSelection();
-                iSelections.Clear();
                 oListFiltered.Clear();
                 BindSelections();
             }
@@ -231,7 +228,7 @@ namespace Lesson3
                 {
                     int iSelectedID = int.Parse(rdoBooks.SelectedItem.Value);
                     Book oBook = new Book();
-                    oBook = oList.Find(delegate (Book b1) { return iSelections.Contains(b1.BookID); });
+                    oBook = oList.Find(delegate (Book b1) { return b1.BookID == iSelectedID; });
                     this.lblSelection.Text = "You selected \"" + oBook.BookTitle + ",\" by " + oBook.AuthorName + " from the radio button list.";
                     ListUpdate();
                 }
@@ -250,7 +247,7 @@ namespace Lesson3
                 {
                     int iSelectedID = int.Parse(ddlBooks.SelectedItem.Value);
                     Book oBook = new Book();
-                    oBook = oList.Find(delegate (Book b1) { return iSelections.Contains(b1.BookID); });
+                    oBook = oList.Find(delegate (Book b1) { return b1.BookID == iSelectedID; });
                     this.lblSelection.Text = "You selected \"" + oBook.BookTitle + ",\" by " + oBook.AuthorName + " from the dropdown list.";
                 }
                 else
