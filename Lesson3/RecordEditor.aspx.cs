@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.Configuration;
 using System.Web.UI.WebControls;
 using BooksCompanion;
-using System.Linq;
 
 namespace Lesson3
 {
@@ -56,22 +55,58 @@ namespace Lesson3
             {
                 try
                 {
-                    Book oBook = new BooksCompanion.Book();
+                    int iLength = 0;
+                    if (CanCovert(this.txtLength.Text.Replace(",", string.Empty), typeof(int)))
+                    {
+                        iLength = int.Parse(this.txtLength.Text.Replace(",", string.Empty));
+                        if (iLength > 1000000)
+                        {
+                            this.lblRecordEditor.Text = "Length out of range! Enter a value between 1 and 1,000,000.";
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        this.lblRecordEditor.Text = "Length out of range! Enter a value between 1 and 1,000,000.";
+                        return;
+                    }
+
+                    decimal dPrice = 0;
+                    if (CanCovert((this.txtPrice.Text.Replace("$", string.Empty).Replace(",", string.Empty)), typeof(decimal)))
+                    {
+                        dPrice = decimal.Parse(this.txtPrice.Text.Replace("$", string.Empty).Replace(",", string.Empty));
+                        if (dPrice > 1000000)
+                        {
+                            this.lblRecordEditor.Text = "Price out of range! Enter a value between $0.00 and $1,000,000.00.";
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        this.lblRecordEditor.Text = "Price out of range! Enter a value between $0.00 and $1,000,000.00.";
+                        return;
+                    }
+
+                    Book oBook = new Book();
                     if (this.txtBookID.Text == "New Record")
                         oBook.BookID = 0;
                     else
-                        oBook.BookID = Int32.Parse(this.txtBookID.Text); 
+                        oBook.BookID = int.Parse(this.txtBookID.Text); 
                     oBook.AuthorName = this.txtAuthorName.Text;
                     oBook.BookTitle = this.txtBookTitle.Text;
                     oBook.IsOnAmazon = Boolean.Parse(this.drdIsOnAmazon.Text);
-                    oBook.Length = Int32.Parse(this.txtLength.Text);
-                    oBook.Price = decimal.Parse(this.txtPrice.Text.Replace("$", string.Empty));
+                    oBook.Length = iLength;
+                    oBook.Price = dPrice;
                     oBook.Save(sCnxn, sLogPath);
                     this.lblRecordEditor.Text = "Save Successful!";
                     ListUpdate();
                     this.ddlBookEditor.SelectedIndex = this.ddlBookEditor.Items.Count - 1;
-                    this.txtBookID.Text = this.ddlBookEditor.SelectedValue;
-                    Book oNewBook = new Book(sCnxn, sLogPath, int.Parse(this.ddlBookEditor.SelectedValue));
+                    int iNewBookID = int.Parse(this.ddlBookEditor.SelectedValue);
+                    Book oNewBook = new Book();
+                    oNewBook = oList.Find(delegate (Book b1) { return (b1.BookID == iNewBookID); });
+                    this.txtBookID.Text = oBook.BookID.ToString();
+                    this.txtLength.Text = String.Format("{0:n0}", oBook.Length);
+                    this.txtPrice.Text = String.Format("{0:C}", oBook.Price);
                     this.txtDateCreated.Text = oNewBook.DateCreated.ToString();
                 }
                 catch (Exception ex)
@@ -94,7 +129,7 @@ namespace Lesson3
                 {
                     int iSearchID = Convert.ToInt32(this.ddlBookEditor.SelectedItem.Value);
                     Book oBook = new Book();
-                    oBook = (from x in oList where x.BookID == iSearchID select x).Single();
+                    oBook = oList.Find(delegate (Book b1) { return (b1.BookID == iSearchID); });
 
                     if (Convert.ToBoolean(oBook.BookID))
                     {
@@ -103,7 +138,7 @@ namespace Lesson3
                         this.txtBookTitle.Text = oBook.BookTitle;
                         this.txtDateCreated.Text = oBook.DateCreated;
                         this.drdIsOnAmazon.Text = oBook.IsOnAmazon.ToString();
-                        this.txtLength.Text = oBook.Length.ToString();
+                        this.txtLength.Text = String.Format("{0:n0}", oBook.Length);
                         this.txtPrice.Text = String.Format("{0:C}", oBook.Price);
                     }
                 }
@@ -131,7 +166,7 @@ namespace Lesson3
         {
             if (!bDeleteClicked)
             {
-                if (this.txtBookID.Text != "0")
+                if (this.txtBookID.Text != "New Record")
                 {
                     this.lblRecordEditor.Text = "Preparing to delete \"" + txtBookTitle.Text + "\" by " + txtAuthorName.Text + "...";
                     this.btnDelete.CssClass = "btn btn-danger";
@@ -139,15 +174,15 @@ namespace Lesson3
                     bDeleteClicked = true;
                 }
                 else
-                    lblRecordEditor.Text = "No record selected!";
+                    lblRecordEditor.Text = "No record selected! Delete operation cancelled.";
             }
             else
             {
                 try
                 {
-                    int iSearchID = Convert.ToInt32(this.ddlBookEditor.SelectedItem.Value);
+                    int iSearchID = int.Parse(this.ddlBookEditor.SelectedItem.Value);
                     Book oBook = new Book();
-                    oBook = (from x in oList where x.BookID == iSearchID select x).Single();
+                    oBook = oList.Find(delegate (Book b1) { return (b1.BookID == iSearchID); });
                     oBook.Delete(sCnxn, sLogPath);
                     FieldsClear();
                     ListUpdate();

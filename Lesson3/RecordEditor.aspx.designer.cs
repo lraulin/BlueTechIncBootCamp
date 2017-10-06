@@ -13,6 +13,15 @@ namespace Lesson3 {
     public partial class RecordEditor {
         
         /// <summary>
+        /// ddlBookEditor control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlBookEditor;
+        
+        /// <summary>
         /// btnNewRecord control.
         /// </summary>
         /// <remarks>
@@ -112,13 +121,22 @@ namespace Lesson3 {
         protected global::System.Web.UI.WebControls.TextBox txtLength;
         
         /// <summary>
-        /// rvLength control.
+        /// rfvLength control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RangeValidator rvLength;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvLength;
+        
+        /// <summary>
+        /// rgxLength control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator rgxLength;
         
         /// <summary>
         /// lblIsOnAmazon control.
@@ -166,13 +184,22 @@ namespace Lesson3 {
         protected global::System.Web.UI.WebControls.TextBox txtPrice;
         
         /// <summary>
-        /// rvPrice control.
+        /// rfvPrice control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RangeValidator rvPrice;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvPrice;
+        
+        /// <summary>
+        /// rgxPrice control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator rgxPrice;
         
         /// <summary>
         /// lblDateCreated control.
@@ -191,15 +218,6 @@ namespace Lesson3 {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtDateCreated;
-        
-        /// <summary>
-        /// ddlBookEditor control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlBookEditor;
         
         /// <summary>
         /// btnSaveRecord control.

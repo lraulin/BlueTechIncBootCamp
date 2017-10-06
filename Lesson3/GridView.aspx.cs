@@ -94,12 +94,26 @@ namespace Lesson3
         {
             try
             {
-                IEnumerable<object> oSelectedBooks =
-                    from book in oList
-                    where iSelections.Contains(book.BookID)
-                    select book;
-                this.dgBooks.DataSource = oSelectedBooks;
+                oListFiltered = oList.FindAll(delegate (Book b1) { return iSelections.Contains(b1.BookID); });
+                this.dgBooks.DataSource = oListFiltered;
                 this.dgBooks.DataBind();
+
+                int iTotalLength = 0;
+                int iAvgLength = 0;
+                decimal dAvgPrice = 0;
+                decimal dTotalPrice = 0;
+
+                foreach (Book item in oListFiltered)
+                {
+                    iTotalLength += item.Length;
+                    dTotalPrice += item.Price;
+                }
+                if (oListFiltered.Count > 0)
+                {
+                    iAvgLength = iTotalLength / oListFiltered.Count;
+                    dAvgPrice = dTotalPrice / oListFiltered.Count;
+                }
+                this.lblStats.Text = String.Format("Total Length: {0:n0} | Avg Length: {1:n0} | Total Price: {2:C} | Avg Price: {3:C}", iTotalLength, iAvgLength, dTotalPrice, dAvgPrice);
             }
             catch (Exception ex)
             {
@@ -120,9 +134,9 @@ namespace Lesson3
                         string sSelectedID = this.dgBooks.Items[i].Cells[0].Text;
                         iSelections.Remove(int.Parse(sSelectedID));
                         if (this.ddlBooks.SelectedValue == sSelectedID)
-                            this.ddlBooks.SelectedIndex = 0;
+                            this.ddlBooks.ClearSelection();
                         if (this.rdoBooks.SelectedValue == sSelectedID)
-                            this.rdoBooks.SelectedIndex = 0;
+                            this.rdoBooks.ClearSelection();
                         foreach (ListItem item in chkBooks.Items)
                             if (item.Value == sSelectedID)
                                 item.Selected = false;
@@ -144,7 +158,9 @@ namespace Lesson3
                 this.rdoBooks.ClearSelection();
                 this.chkBooks.ClearSelection();
                 this.ddlBooks.ClearSelection();
-                ListUpdate();
+                iSelections.Clear();
+                oListFiltered.Clear();
+                BindSelections();
             }
             catch (Exception ex)
             {
@@ -164,7 +180,7 @@ namespace Lesson3
                             if (CanCovert(item.Value, typeof(int)))
                             {
                                 Book oBook = new Book();
-                                oBook = (from x in oList where x.BookID == int.Parse(item.Value) select x).Single();
+                                oBook = oList.Find(delegate (Book b1) { return b1.BookID == int.Parse(item.Value); });
                                 this.lblSelection.Text += "\"" + oBook.BookTitle + ",\" by " + oBook.AuthorName + "<br/>";
                             }
                             else
@@ -215,7 +231,7 @@ namespace Lesson3
                 {
                     int iSelectedID = int.Parse(rdoBooks.SelectedItem.Value);
                     Book oBook = new Book();
-                    oBook = (from x in oList where x.BookID == iSelectedID select x).Single();
+                    oBook = oList.Find(delegate (Book b1) { return iSelections.Contains(b1.BookID); });
                     this.lblSelection.Text = "You selected \"" + oBook.BookTitle + ",\" by " + oBook.AuthorName + " from the radio button list.";
                     ListUpdate();
                 }
@@ -234,7 +250,7 @@ namespace Lesson3
                 {
                     int iSelectedID = int.Parse(ddlBooks.SelectedItem.Value);
                     Book oBook = new Book();
-                    oBook = (from x in oList where x.BookID == iSelectedID select x).Single();
+                    oBook = oList.Find(delegate (Book b1) { return iSelections.Contains(b1.BookID); });
                     this.lblSelection.Text = "You selected \"" + oBook.BookTitle + ",\" by " + oBook.AuthorName + " from the dropdown list.";
                 }
                 else

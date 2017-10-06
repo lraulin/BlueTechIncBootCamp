@@ -54,6 +54,7 @@
         </asp:DataGrid>
         <div id="SearchBox">
           <asp:Button ID="btnRemoveSelected" runat="server" Text="Remove" OnClick="btnRemoveSelected_Click" />
+          <asp:Label ID="lblStats" runat="server"></asp:Label>
         </div>
       </div>
     </div>
