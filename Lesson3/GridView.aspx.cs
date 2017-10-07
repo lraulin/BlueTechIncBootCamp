@@ -13,10 +13,10 @@ namespace Lesson3
 {
     public partial class GridView : System.Web.UI.Page
     {
-        private string sCnxn = ConfigurationManager.AppSettings["Cnxn"];
-        private string sLogPath = ConfigurationManager.AppSettings["LogPath"];
-        private static List<Book> oList = new List<Book>();
-        private static List<Book> oListFiltered = new List<Book>();
+        private static string sCnxn = ConfigurationManager.AppSettings["Cnxn"];
+        private static string sLogPath = ConfigurationManager.AppSettings["LogPath"];
+        private static Books oBooks = new Books(sCnxn, sLogPath);
+        private static Dictionary<int, Book> oBooksFiltered = new Dictionary<int, Book>();
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -34,9 +34,6 @@ namespace Lesson3
         {
             try
             {
-                Books oBooks = new Books(sCnxn, sLogPath);
-                oList.AddRange(oBooks.Values);
-
                 this.ddlBooks.DataSource = oBooks.Values;
                 this.ddlBooks.DataTextField = "BookTitle";
                 this.ddlBooks.DataValueField = "BookID";
@@ -68,19 +65,26 @@ namespace Lesson3
         {
             try
             {
-                oListFiltered.Clear();
+                oBooksFiltered.Clear();
 
                 if (CanCovert(this.ddlBooks.SelectedValue, typeof(int)))
-                    oListFiltered.Add(oList.Find(delegate (Book b1) { return b1.BookID == int.Parse(this.ddlBooks.SelectedValue); }));
+                {
+                    int iBookID = int.Parse(this.ddlBooks.SelectedValue);
+                    oBooksFiltered[iBookID] = oBooks[iBookID];
+                }
 
                 if (CanCovert(this.rdoBooks.SelectedValue, typeof(int)))
-                    oListFiltered.Add(oList.Find(delegate (Book b1) { return b1.BookID == int.Parse(this.rdoBooks.SelectedValue); }));
+                {
+                    int iBookID = int.Parse(this.rdoBooks.SelectedValue);
+                    oBooksFiltered[iBookID] = oBooks[iBookID];
+                }
 
                 foreach (ListItem item in this.chkBooks.Items)
                     if (item.Selected && CanCovert(item.Value, typeof(int)))
-                        oListFiltered.Add(oList.Find(delegate (Book b1) { return b1.BookID == int.Parse(item.Value); }));
-
-                oListFiltered = oListFiltered.Distinct<Book>().ToList<Book>();
+                    {
+                        int iBookID = int.Parse(item.Value);
+                        oBooksFiltered[iBookID] = oBooks[iBookID];
+                    }
                 BindSelections();
             }
             catch (Exception ex)
@@ -93,7 +97,7 @@ namespace Lesson3
         {
             try
             {
-                this.dgBooks.DataSource = oListFiltered;
+                this.dgBooks.DataSource = oBooksFiltered;
                 this.dgBooks.DataBind();
 
                 int iTotalLength = 0;
@@ -101,15 +105,15 @@ namespace Lesson3
                 decimal dAvgPrice = 0;
                 decimal dTotalPrice = 0;
 
-                foreach (Book item in oListFiltered)
+                foreach (KeyValuePair<int, Book> kvp in oBooksFiltered)
                 {
-                    iTotalLength += item.Length;
-                    dTotalPrice += item.Price;
+                    iTotalLength += kvp.Value.Length;
+                    dTotalPrice += kvp.Value.Price;
                 }
-                if (oListFiltered.Count > 0)
+                if (oBooksFiltered.Count > 0)
                 {
-                    iAvgLength = iTotalLength / oListFiltered.Count;
-                    dAvgPrice = dTotalPrice / oListFiltered.Count;
+                    iAvgLength = iTotalLength / oBooksFiltered.Count;
+                    dAvgPrice = dTotalPrice / oBooksFiltered.Count;
                 }
                 this.lblStats.Text = String.Format("Total Length: {0:n0} | Avg Length: {1:n0} | Total Price: {2:C} | Avg Price: {3:C}", iTotalLength, iAvgLength, dTotalPrice, dAvgPrice);
             }
@@ -129,8 +133,7 @@ namespace Lesson3
                     if (chkSelections.Checked)
                     {
                         string sSelectedID = this.dgBooks.Items[i].Cells[0].Text;
-                        Book oBookToRemove = oListFiltered.Find(delegate (Book b1) { return (b1.BookID == int.Parse(sSelectedID)); });
-                        oListFiltered.Remove(oBookToRemove);
+                        oBooksFiltered.Remove(int.Parse(sSelectedID));
                         if (this.ddlBooks.SelectedValue == sSelectedID)
                             this.ddlBooks.ClearSelection();
                         if (this.rdoBooks.SelectedValue == sSelectedID)
@@ -156,7 +159,7 @@ namespace Lesson3
                 this.rdoBooks.ClearSelection();
                 this.chkBooks.ClearSelection();
                 this.ddlBooks.ClearSelection();
-                oListFiltered.Clear();
+                oBooksFiltered.Clear();
                 BindSelections();
             }
             catch (Exception ex)
@@ -176,9 +179,7 @@ namespace Lesson3
                         if (item.Selected)
                             if (CanCovert(item.Value, typeof(int)))
                             {
-                                Book oBook = new Book();
-                                oBook = oList.Find(delegate (Book b1) { return b1.BookID == int.Parse(item.Value); });
-                                this.lblSelection.Text += "\"" + oBook.BookTitle + ",\" by " + oBook.AuthorName + "<br/>";
+                                this.lblSelection.Text += "\"" + oBooksFiltered[int.Parse(item.Value)].BookTitle + ",\" by " + oBooksFiltered[int.Parse(item.Value)].AuthorName + "<br/>";
                             }
                             else
                                 this.lblSelection.Text += item.Value.ToString() + "<br/>";
@@ -227,9 +228,7 @@ namespace Lesson3
                 if (this.rdoBooks.SelectedValue != "")
                 {
                     int iSelectedID = int.Parse(rdoBooks.SelectedItem.Value);
-                    Book oBook = new Book();
-                    oBook = oList.Find(delegate (Book b1) { return b1.BookID == iSelectedID; });
-                    this.lblSelection.Text = "You selected \"" + oBook.BookTitle + ",\" by " + oBook.AuthorName + " from the radio button list.";
+                    this.lblSelection.Text = "You selected \"" + oBooksFiltered[iSelectedID].BookTitle + ",\" by " + oBooksFiltered[iSelectedID].AuthorName + " from the radio button list.";
                     ListUpdate();
                 }
             }
@@ -246,9 +245,7 @@ namespace Lesson3
                 if (CanCovert(ddlBooks.SelectedValue, typeof(int)))
                 {
                     int iSelectedID = int.Parse(ddlBooks.SelectedItem.Value);
-                    Book oBook = new Book();
-                    oBook = oList.Find(delegate (Book b1) { return b1.BookID == iSelectedID; });
-                    this.lblSelection.Text = "You selected \"" + oBook.BookTitle + ",\" by " + oBook.AuthorName + " from the dropdown list.";
+                    this.lblSelection.Text = "You selected \"" + oBooksFiltered[iSelectedID].BookTitle + ",\" by " + oBooksFiltered[iSelectedID].AuthorName + " from the dropdown list.";
                 }
                 else
                     this.lblSelection.Text = "You have reset the drop-down list.";

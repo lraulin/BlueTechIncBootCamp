@@ -9,9 +9,9 @@ namespace Lesson3
 {
     public partial class RecordEditor : System.Web.UI.Page
     {
-        private string sCnxn = ConfigurationManager.AppSettings["Cnxn"];
-        private string sLogPath = ConfigurationManager.AppSettings["LogPath"];
-        private static List<Book> oList = new List<Book>();
+        private static string sCnxn = ConfigurationManager.AppSettings["Cnxn"];
+        private static string sLogPath = ConfigurationManager.AppSettings["LogPath"];
+        private static Books oBooks = new Books(sCnxn, sLogPath);
         private static bool bDeleteClicked = false;
 
         protected void Page_Load(object sender, EventArgs e)
@@ -22,10 +22,7 @@ namespace Lesson3
 
         protected void ListUpdate()
         {
-            Books oBooks = new Books(sCnxn, sLogPath);
-            oList.Clear();
-            oList.AddRange(oBooks.Values);
-            this.ddlBookEditor.DataSource = oList;
+            this.ddlBookEditor.DataSource = oBooks.Values;
             this.ddlBookEditor.DataTextField = "BookTitle";
             this.ddlBookEditor.DataValueField = "BookID";
             this.ddlBookEditor.DataBind();
@@ -103,7 +100,7 @@ namespace Lesson3
                     this.ddlBookEditor.SelectedIndex = this.ddlBookEditor.Items.Count - 1;
                     int iNewBookID = int.Parse(this.ddlBookEditor.SelectedValue);
                     Book oNewBook = new Book();
-                    oNewBook = oList.Find(delegate (Book b1) { return (b1.BookID == iNewBookID); });
+                    oNewBook = oBooks[iNewBookID];
                     this.txtBookID.Text = oBook.BookID.ToString();
                     this.txtLength.Text = String.Format("{0:n0}", oBook.Length);
                     this.txtPrice.Text = String.Format("{0:C}", oBook.Price);
@@ -129,7 +126,7 @@ namespace Lesson3
                 {
                     int iSearchID = Convert.ToInt32(this.ddlBookEditor.SelectedItem.Value);
                     Book oBook = new Book();
-                    oBook = oList.Find(delegate (Book b1) { return (b1.BookID == iSearchID); });
+                    oBook = oBooks[iSearchID];
 
                     if (Convert.ToBoolean(oBook.BookID))
                     {
@@ -182,7 +179,7 @@ namespace Lesson3
                 {
                     int iSearchID = int.Parse(this.ddlBookEditor.SelectedItem.Value);
                     Book oBook = new Book();
-                    oBook = oList.Find(delegate (Book b1) { return (b1.BookID == iSearchID); });
+                    oBook = oBooks[iSearchID];
                     oBook.Delete(sCnxn, sLogPath);
                     FieldsClear();
                     ListUpdate();
