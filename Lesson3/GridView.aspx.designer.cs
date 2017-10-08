@@ -58,15 +58,6 @@ namespace Lesson3 {
         protected global::System.Web.UI.WebControls.DataGrid dgBooks;
         
         /// <summary>
-        /// btnRemoveSelected control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnRemoveSelected;
-        
-        /// <summary>
         /// lblStats control.
         /// </summary>
         /// <remarks>
@@ -74,6 +65,51 @@ namespace Lesson3 {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblStats;
+        
+        /// <summary>
+        /// ddlFilter control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlFilter;
+        
+        /// <summary>
+        /// txtFilter control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtFilter;
+        
+        /// <summary>
+        /// btnFilter control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnFilter;
+        
+        /// <summary>
+        /// btnReverseSort control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnReverseSort;
+        
+        /// <summary>
+        /// btnRemoveSelected control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnRemoveSelected;
         
         /// <summary>
         /// ddlBooks control.
@@ -92,6 +128,15 @@ namespace Lesson3 {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBoxList chkBooks;
+        
+        /// <summary>
+        /// btnCheckAll control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnCheckAll;
         
         /// <summary>
         /// lblCheckBox control.

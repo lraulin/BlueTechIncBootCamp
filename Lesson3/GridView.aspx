@@ -21,7 +21,7 @@
         </div>
       </div>
       <div class="col-xs-9">
-        <asp:DataGrid ID="dgBooks" runat="server" AllowSorting="True" AutoGenerateColumns="False" CssClass="grid" CellPadding="4" ForeColor="#333333" GridLines="None">
+        <asp:DataGrid ID="dgBooks" runat="server" AllowSorting="True" AutoGenerateColumns="False" OnSortCommand="dgBooks_SortCommand" CssClass="grid" CellPadding="4" ForeColor="#333333" GridLines="None">
           <AlternatingItemStyle BackColor="White" ForeColor="#284775" />
           <Columns>
             <asp:BoundColumn DataField="BookID" SortExpression="BookID" HeaderText="Book ID" ItemStyle-HorizontalAlign="Center">
@@ -53,8 +53,13 @@
           <SelectedItemStyle BackColor="#E2DED6" Font-Bold="True" ForeColor="#333333" />
         </asp:DataGrid>
         <div id="SearchBox">
-          <asp:Button ID="btnRemoveSelected" runat="server" Text="Remove" OnClick="btnRemoveSelected_Click" />
           <asp:Label ID="lblStats" runat="server"></asp:Label>
+          <br />
+          <asp:DropDownList ID="ddlFilter" runat="server"></asp:DropDownList>
+          <asp:TextBox ID="txtFilter" runat="server"></asp:TextBox>
+          <asp:Button ID="btnFilter" runat="server" Text="Filter" OnClick="btnFilter_Click" />
+          <asp:Button ID="btnReverseSort" runat="server" Text="Reverse Order" OnClick="btnReverseSort_Click" />
+          <asp:Button ID="btnRemoveSelected" runat="server" Text="Remove" OnClick="btnRemoveSelected_Click" />
         </div>
       </div>
     </div>
@@ -67,6 +72,7 @@
       <div class="col-xs-4 border">
         <asp:CheckBoxList ID="chkBooks" runat="server" OnSelectedIndexChanged="chkBooks_SelectedIndexChanged" AutoPostBack="true">
         </asp:CheckBoxList>
+        <asp:Button ID="btnCheckAll" runat="server" Text="Check All" OnClick="btnCheckAll_Click" />
         <asp:Label ID="lblCheckBox" runat="server"></asp:Label>
         <br />
       </div>
