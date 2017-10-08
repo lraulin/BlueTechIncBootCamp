@@ -109,22 +109,22 @@ namespace Lesson3
         {
             try
             {
-                int iTotalLength = 0;
+                int iTotalLength = oListFiltered.Sum((Book b1) => b1.Length);
+                int iMinLength = oListFiltered.Min((Book b1) => b1.Length);
+                int iMaxLength = oListFiltered.Max((Book b1) => b1.Length);
+                decimal dTotalPrice = oListFiltered.Sum((Book b1) => b1.Length);
+                decimal dMinPrice = oListFiltered.Min((Book b1) => b1.Price);
+                decimal dMaxPrice = oListFiltered.Max((Book b1) => b1.Price);
                 int iAvgLength = 0;
                 decimal dAvgPrice = 0;
-                decimal dTotalPrice = 0;
 
-                foreach (Book item in oListFiltered)
-                {
-                    iTotalLength += item.Length;
-                    dTotalPrice += item.Price;
-                }
                 if (oListFiltered.Count > 0)
                 {
-                    iAvgLength = iTotalLength / oListFiltered.Count;
-                    dAvgPrice = dTotalPrice / oListFiltered.Count;
+                    iAvgLength = (int)oListFiltered.Average((Book b1) => b1.Length);
+                    dAvgPrice = (decimal)oListFiltered.Average((Book b1) => b1.Price);
                 }
-                this.lblStats.Text = String.Format("Total Length: {0:n0} | Avg Length: {1:n0} | Total Price: {2:C} | Avg Price: {3:C}", iTotalLength, iAvgLength, dTotalPrice, dAvgPrice);
+                this.lblStats.Text = String.Format("LENGTH Min: {0:n0}, Max {1:n0}, Total: {2:n0}, Avg: {3:n0} | PRICE Min: {4:C}, Max: {5:C}," +
+                    "Total: {6:C} | Avg: {7:C}", iMinLength, iMaxLength, iTotalLength, iAvgLength, dMinPrice, dMaxPrice, dTotalPrice, dAvgPrice);
                 SortBooks();
             }
             catch (Exception ex)
