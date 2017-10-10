@@ -9,19 +9,24 @@ namespace Lesson3
 {
     public partial class RecordEditor : System.Web.UI.Page
     {
-        private static string sCnxn = ConfigurationManager.AppSettings["Cnxn"];
-        private static string sLogPath = ConfigurationManager.AppSettings["LogPath"];
-        private static Books oBooks = new Books(sCnxn, sLogPath);
-        private static bool bDeleteClicked = false;
+        
+        bool bDeleteClicked = false;
 
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
+            {
+                string sCnxn = ConfigurationManager.AppSettings["Cnxn"];
+                string sLogPath = ConfigurationManager.AppSettings["LogPath"];
+                Books oBooks = new Books(sCnxn, sLogPath);
+                Cache["oBooks"] = oBooks;
                 ListUpdate();
+            }
         }
 
         protected void ListUpdate()
         {
+            Books oBooks = (Books)Cache["oBooks"];
             this.ddlBookEditor.DataSource = oBooks.Values;
             this.ddlBookEditor.DataTextField = "BookTitle";
             this.ddlBookEditor.DataValueField = "BookID";
@@ -84,6 +89,9 @@ namespace Lesson3
                         return;
                     }
 
+                    Books oBooks = (Books)Cache["oBooks"];
+                    string sCnxn = ConfigurationManager.AppSettings["Cnxn"];
+                    string sLogPath = ConfigurationManager.AppSettings["LogPath"];
                     Book oBook = new Book();
                     if (this.txtBookID.Text == "New Record")
                         oBook.BookID = 0;
@@ -126,6 +134,7 @@ namespace Lesson3
                 {
                     int iSearchID = Convert.ToInt32(this.ddlBookEditor.SelectedItem.Value);
                     Book oBook = new Book();
+                    Books oBooks = (Books)Cache["oBooks"];
                     oBook = oBooks[iSearchID];
 
                     if (Convert.ToBoolean(oBook.BookID))
@@ -177,6 +186,9 @@ namespace Lesson3
             {
                 try
                 {
+                    Books oBooks = (Books)Cache["oBooks"];
+                    string sCnxn = ConfigurationManager.AppSettings["Cnxn"];
+                    string sLogPath = ConfigurationManager.AppSettings["LogPath"];
                     int iSearchID = int.Parse(this.ddlBookEditor.SelectedItem.Value);
                     Book oBook = new Book();
                     oBook = oBooks[iSearchID];

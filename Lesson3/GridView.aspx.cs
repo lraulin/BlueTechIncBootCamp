@@ -13,17 +13,19 @@ namespace Lesson3
 {
     public partial class GridView : System.Web.UI.Page
     {
-        private static string sCnxn = ConfigurationManager.AppSettings["Cnxn"];
-        private static string sLogPath = ConfigurationManager.AppSettings["LogPath"];
-        private static Books oBooks = new Books(sCnxn, sLogPath);
-        private static List<Book> oListFiltered = new List<Book>();
-        private static string sSortExpression = "BOOKID";
-        private static bool bReversed = false;
-
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
+                string sCnxn = ConfigurationManager.AppSettings["Cnxn"];
+                string sLogPath = ConfigurationManager.AppSettings["LogPath"];
+                Books oBooks = new Books(sCnxn, sLogPath);
+                Cache["oBooks"] = oBooks;
+                List<Book> oListSelected = new List<Book>();
+                oListSelected.AddRange(oBooks.Values);
+                Cache["oListSelected"] = oListSelected;
+                Cache["sSortExpression"] = "BOOKID";
+                Cache["bReversed"] = false;
                 PopulateWebControls();
             }
         }
@@ -38,6 +40,8 @@ namespace Lesson3
         {
             try
             {
+                Books oBooks = (Books)Cache["oBooks"];
+
                 this.ddlBooks.DataSource = oBooks.Values;
                 this.ddlBooks.DataTextField = "BookTitle";
                 this.ddlBooks.DataValueField = "BookID";
@@ -76,27 +80,30 @@ namespace Lesson3
         {
             try
             {
-                oListFiltered.Clear();
+                Books oBooks = (Books)Cache["oBooks"];
+                List<Book> oListSelected = (List<Book>)Cache["oListSelected"];
+                oListSelected.Clear();
 
                 if (CanCovert(this.ddlBooks.SelectedValue, typeof(int)))
                 {
                     int iBookID = int.Parse(this.ddlBooks.SelectedValue);
-                    oListFiltered.Add(oBooks[iBookID]);
+                    oListSelected.Add(oBooks[iBookID]);
                 }
 
                 if (CanCovert(this.rdoBooks.SelectedValue, typeof(int)))
                 {
                     int iBookID = int.Parse(this.rdoBooks.SelectedValue);
-                    oListFiltered.Add(oBooks[iBookID]);
+                    oListSelected.Add(oBooks[iBookID]);
                 }
 
                 foreach (ListItem item in this.chkBooks.Items)
                     if (item.Selected && CanCovert(item.Value, typeof(int)))
                     {
                         int iBookID = int.Parse(item.Value);
-                        oListFiltered.Add(oBooks[iBookID]);
+                        oListSelected.Add(oBooks[iBookID]);
                     }
-                oListFiltered = oListFiltered.Distinct<Book>().ToList<Book>();
+                oListSelected = oListSelected.Distinct<Book>().ToList<Book>();
+                Cache["oListSelected"] = oListSelected;
                 BindSelections();
             }
             catch (Exception ex)
@@ -109,19 +116,26 @@ namespace Lesson3
         {
             try
             {
-                int iTotalLength = oListFiltered.Sum((Book b1) => b1.Length);
-                int iMinLength = oListFiltered.Min((Book b1) => b1.Length);
-                int iMaxLength = oListFiltered.Max((Book b1) => b1.Length);
-                decimal dTotalPrice = oListFiltered.Sum((Book b1) => b1.Length);
-                decimal dMinPrice = oListFiltered.Min((Book b1) => b1.Price);
-                decimal dMaxPrice = oListFiltered.Max((Book b1) => b1.Price);
+                List<Book> oListSelected = (List<Book>)Cache["oListSelected"];
+                int iMinLength = 0;
+                int iMaxLength = 0;
+                int iTotalLength = 0;
                 int iAvgLength = 0;
+                decimal dMinPrice = 0;
+                decimal dMaxPrice = 0;
+                decimal dTotalPrice = 0;
                 decimal dAvgPrice = 0;
 
-                if (oListFiltered.Count > 0)
+                if (oListSelected.Count > 0)
                 {
-                    iAvgLength = (int)oListFiltered.Average((Book b1) => b1.Length);
-                    dAvgPrice = (decimal)oListFiltered.Average((Book b1) => b1.Price);
+                    iMinLength = oListSelected.Min((Book b1) => b1.Length);
+                    iMaxLength = oListSelected.Max((Book b1) => b1.Length);
+                    iTotalLength = oListSelected.Sum((Book b1) => b1.Length);
+                    iAvgLength = (int)oListSelected.Average((Book b1) => b1.Length);
+                    dMinPrice = oListSelected.Min((Book b1) => b1.Price);
+                    dMaxPrice = oListSelected.Max((Book b1) => b1.Price);
+                    dTotalPrice = oListSelected.Sum((Book b1) => b1.Length);
+                    dAvgPrice = (decimal)oListSelected.Average((Book b1) => b1.Price);
                 }
                 this.lblStats.Text = String.Format("LENGTH Min: {0:n0}, Max {1:n0}, Total: {2:n0}, Avg: {3:n0} | PRICE Min: {4:C}, Max: {5:C}," +
                     "Total: {6:C} | Avg: {7:C}", iMinLength, iMaxLength, iTotalLength, iAvgLength, dMinPrice, dMaxPrice, dTotalPrice, dAvgPrice);
@@ -129,7 +143,7 @@ namespace Lesson3
             }
             catch (Exception ex)
             {
-                this.lblSelection.Text = "UpdateSelection:" + ex.Message;
+                this.lblSelection.Text = "BindSelection:" + ex.Message;
             }
         }
 
@@ -137,26 +151,31 @@ namespace Lesson3
         {
             try
             {
+                List<Book> oListSelected = (List<Book>)Cache["oListSelected"];
+                string sSortExpression = (string)Cache["sSortExpression"];
+
                 if (sSortExpression == "BOOKID")
-                    oListFiltered.Sort(delegate (Book b1, Book b2) { return b1.BookID.CompareTo(b2.BookID); });
+                    oListSelected.Sort(delegate (Book b1, Book b2) { return b1.BookID.CompareTo(b2.BookID); });
                 if (sSortExpression == "BOOKTITLE")
-                    oListFiltered.Sort(delegate (Book b1, Book b2) { return b1.BookTitle.CompareTo(b2.BookTitle); });
+                    oListSelected.Sort(delegate (Book b1, Book b2) { return b1.BookTitle.CompareTo(b2.BookTitle); });
                 if (sSortExpression == "AUTHORNAME")
-                    oListFiltered.Sort(delegate (Book b1, Book b2) { return b1.AuthorName.CompareTo(b2.AuthorName); });
+                    oListSelected.Sort(delegate (Book b1, Book b2) { return b1.AuthorName.CompareTo(b2.AuthorName); });
                 if (sSortExpression == "LENGTH")
-                    oListFiltered.Sort(delegate (Book b1, Book b2) { return b1.Length.CompareTo(b2.Length); });
+                    oListSelected.Sort(delegate (Book b1, Book b2) { return b1.Length.CompareTo(b2.Length); });
                 if (sSortExpression == "ISONAMAZON")
-                    oListFiltered.Sort(delegate (Book b1, Book b2) { return b1.IsOnAmazon.CompareTo(b2.IsOnAmazon); });
+                    oListSelected.Sort(delegate (Book b1, Book b2) { return b1.IsOnAmazon.CompareTo(b2.IsOnAmazon); });
                 if (sSortExpression == "DATECREATED")
-                    oListFiltered.Sort(delegate (Book b1, Book b2) { return b1.DateCreated.CompareTo(b2.DateCreated); });
+                    oListSelected.Sort(delegate (Book b1, Book b2) { return b1.DateCreated.CompareTo(b2.DateCreated); });
                 if (sSortExpression == "PRICE")
-                    oListFiltered.Sort(delegate (Book b1, Book b2) { return b1.Price.CompareTo(b2.BookID); });
+                    oListSelected.Sort(delegate (Book b1, Book b2) { return b1.Price.CompareTo(b2.BookID); });
 
-                if (bReversed == true)
-                    oListFiltered.Reverse();
+                if ((bool)Cache["bReversed"] == true)
+                    oListSelected.Reverse();
 
-                this.dgBooks.DataSource = oListFiltered;
+                this.dgBooks.DataSource = oListSelected;
                 this.dgBooks.DataBind();
+
+                Cache["oListSelected"] = oListSelected;
             }
             catch (Exception ex)
             {
@@ -168,6 +187,7 @@ namespace Lesson3
         {
             try
             {
+                Books oBooks = (Books)Cache["oBooks"];
                 if (CanCovert(ddlBooks.SelectedValue, typeof(int)))
                 {
                     int iSelectedID = int.Parse(ddlBooks.SelectedItem.Value);
@@ -187,15 +207,14 @@ namespace Lesson3
         {
             try
             {
+                Books oBooks = (Books)Cache["oBooks"];
                 this.lblSelection.Text = "You checked:<br/>";
                 if (chkBooks.Items.Count > 0)
                 {
                     foreach (ListItem item in chkBooks.Items)
                         if (item.Selected)
                             if (CanCovert(item.Value, typeof(int)))
-                            {
                                 this.lblSelection.Text += "\"" + oBooks[int.Parse(item.Value)].BookTitle + ",\" by " + oBooks[int.Parse(item.Value)].AuthorName + "<br/>";
-                            }
                             else
                                 this.lblSelection.Text += item.Value.ToString() + "<br/>";
                 }
@@ -213,6 +232,7 @@ namespace Lesson3
         {
             try
             {
+                Books oBooks = (Books)Cache["oBooks"];
                 if (this.rdoBooks.SelectedValue != "")
                 {
                     int iSelectedID = int.Parse(rdoBooks.SelectedItem.Value);
@@ -267,13 +287,14 @@ namespace Lesson3
         {
             try
             {
+                List<Book> oListSelected = (List<Book>)Cache["oListSelected"];
                 for (int i = this.dgBooks.Items.Count - 1; i >= 0; i--)
                 {
                     CheckBox chkSelections = (CheckBox)dgBooks.Items[i].FindControl("chkSelection");
                     if (chkSelections.Checked)
                     {
                         string sSelectedID = this.dgBooks.Items[i].Cells[0].Text;
-                        oListFiltered.RemoveAll((Book b1) => b1.BookID == int.Parse(sSelectedID));
+                        oListSelected.RemoveAll((Book b1) => b1.BookID == int.Parse(sSelectedID));
                         if (this.ddlBooks.SelectedValue == sSelectedID)
                             this.ddlBooks.ClearSelection();
                         if (this.rdoBooks.SelectedValue == sSelectedID)
@@ -283,6 +304,7 @@ namespace Lesson3
                                 item.Selected = false;
                     }
                 }
+                Cache["oListSelected"] = oListSelected;
                 BindSelections();
             }
             catch (Exception ex)
@@ -299,7 +321,9 @@ namespace Lesson3
                 this.rdoBooks.ClearSelection();
                 this.chkBooks.ClearSelection();
                 this.ddlBooks.ClearSelection();
-                oListFiltered.Clear();
+                List<Book> oListSelected = (List<Book>)Cache["oListSelected"];
+                oListSelected.Clear();
+                Cache["oListSelected"] = oListSelected;
                 BindSelections();
             }
             catch (Exception ex)
@@ -346,8 +370,8 @@ namespace Lesson3
         {
             try
             {
-                bReversed = false;
-                sSortExpression = e.SortExpression.ToUpper();
+                Cache["bReversed"] = false;
+                Cache["sSortExpression"] = e.SortExpression.ToUpper();
                 SortBooks();
             }
             catch (Exception ex)
@@ -361,9 +385,7 @@ namespace Lesson3
             try
             {
                 foreach (ListItem item in this.chkBooks.Items)
-                {
                     item.Selected = true;
-                }
                 ListUpdate();
             }
             catch (Exception ex)
@@ -374,39 +396,43 @@ namespace Lesson3
 
         protected void btnFilter_Click(object sender, EventArgs e)
         {
+            List<Book> oListSelected = (List<Book>)Cache["oListSelected"];
             if (this.ddlFilter.Text == "Author Contains")
-                oListFiltered = oListFiltered.FindAll(delegate (Book b1) { return b1.AuthorName.ToUpper().Contains(this.txtFilter.Text.ToUpper()); }); 
+                oListSelected = oListSelected.FindAll(delegate (Book b1) { return b1.AuthorName.ToUpper().Contains(this.txtFilter.Text.ToUpper()); });
             if (this.ddlFilter.Text == "Title Contains")
-                oListFiltered = oListFiltered.FindAll(delegate (Book b1) { return b1.BookTitle.ToUpper().Contains(this.txtFilter.Text.ToUpper()); });
+                oListSelected = oListSelected.FindAll(delegate (Book b1) { return b1.BookTitle.ToUpper().Contains(this.txtFilter.Text.ToUpper()); });
             if (this.ddlFilter.Text == "Length Greater Than")
                 if (CanCovert(this.txtFilter.Text, typeof(int)))
-                    oListFiltered = oListFiltered.FindAll((Book b1) => b1.Length > int.Parse(this.txtFilter.Text));
+                    oListSelected = oListSelected.FindAll((Book b1) => b1.Length > int.Parse(this.txtFilter.Text));
                 else
                     this.lblSelection.Text = "Invalid input! Must be integer.";
             if (this.ddlFilter.Text == "Length Less Than")
                 if (CanCovert(this.txtFilter.Text, typeof(int)))
-                    oListFiltered = oListFiltered.FindAll((Book b1) => b1.Length < int.Parse(this.txtFilter.Text));
+                    oListSelected = oListSelected.FindAll((Book b1) => b1.Length < int.Parse(this.txtFilter.Text));
                 else
                     this.lblSelection.Text = "Invalid input! Must be integer.";
             if (this.ddlFilter.Text == "Price Greater Than")
                 if (CanCovert(this.txtFilter.Text, typeof(decimal)))
-                    oListFiltered = (from Book b1 in oListFiltered where b1.Price > decimal.Parse(this.txtFilter.Text) select b1).ToList();
+                    oListSelected = (from Book b1 in oListSelected where b1.Price > decimal.Parse(this.txtFilter.Text) select b1).ToList();
                 else
                     this.lblSelection.Text = "Invalid input! Please enter a decimal number.";
             if (this.ddlFilter.Text == "Price Less Than")
                 if (CanCovert(this.txtFilter.Text, typeof(decimal)))
-                    oListFiltered = (from Book b1 in oListFiltered where b1.Price < decimal.Parse(this.txtFilter.Text) select b1).ToList();
+                    oListSelected = (from Book b1 in oListSelected where b1.Price < decimal.Parse(this.txtFilter.Text) select b1).ToList();
                 else
                     this.lblSelection.Text = "Invalid input! Please enter a decimal number.";
+            Cache["oListSelected"] = oListSelected;
             BindSelections();
         }
 
         protected void btnReverseSort_Click(object sender, EventArgs e)
         {
-            bReversed = true;
-            oListFiltered.Reverse();
-            dgBooks.DataSource = oListFiltered;
+            Cache["bReversed"] = true;
+            List<Book> oListSelected = (List<Book>)Cache["oListSelected"];
+            oListSelected.Reverse();
+            dgBooks.DataSource = oListSelected;
             dgBooks.DataBind();
+            Cache["oListSelected"] = oListSelected;
         }
     }
 }
