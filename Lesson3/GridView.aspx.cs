@@ -17,6 +17,7 @@ namespace Lesson3
         {
             if (!IsPostBack)
             {
+
                 string sCnxn = ConfigurationManager.AppSettings["Cnxn"];
                 string sLogPath = ConfigurationManager.AppSettings["LogPath"];
                 Books oBooks = new Books(sCnxn, sLogPath);
@@ -309,7 +310,7 @@ namespace Lesson3
             }
             catch (Exception ex)
             {
-                this.lblSelection.Text = "btnRemoveSelected: " + ex.Message;
+                this.lblSelection.Text = "btnremoveSelected: " + ex.Message;
             }
         }
 
