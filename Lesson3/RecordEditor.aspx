@@ -3,7 +3,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
   <div class="container">
     <div class="jumbotron text-center">
-      <h1>Record View</h1>
+      <h1>&nbsp;&nbsp;&nbsp;&nbsp; Record View</h1>
       <p>Add new record, or select existing record to view or edit.</p>
     </div>
   </div>
